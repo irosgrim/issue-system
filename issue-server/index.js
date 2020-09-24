@@ -1,9 +1,9 @@
 require('dotenv').config()
 const express = require('express');
 const path = require('path');
-const { checkIfTheTablesExist, setupDb } = require('./db/db');
+const { setupDb } = require('./db/dbHelpers');
 const { Route } = require('./routes/routes');
-const setup = require('./db/db').setup;
+const setup = require('./db/dbHelpers').setup;
 const checkAuthorisation= require('./middlewares/middlewares').checkAuthorisation;
 const app = express();
 const port = 3002;
@@ -14,6 +14,6 @@ setupDb();
 app.use(baseUrl, express.static(path.join(__dirname, 'www')));
 
 
-app.get(`${baseUrl}/ongoing-issues`, checkAuthorisation(), route.getOngoingIssues());
+app.get(`${baseUrl}/all-issues`, checkAuthorisation(), route.getOngoingIssues());
 
 app.listen(port, () => console.log('Issue server running on port ' + port));

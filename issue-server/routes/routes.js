@@ -1,9 +1,9 @@
-const query = require('../db/db').dbQuery;
+const query = require('../db/dbHelpers').dbQuery;
 const eventEmitter = require('events');
 class Route {
     getOngoingIssues() {
         return (req, res) => {
-            query(`SELECT * FROM test`, [], (error, results) => {
+            query(`SELECT * FROM issues`, [], (error, results) => {
                 if(error) {
                     console.log(error);
                     return;
