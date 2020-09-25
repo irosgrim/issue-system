@@ -1,0 +1,41 @@
+version: '3'
+
+services:
+  # proxies requests to internal services, necessary if you want to run multiple services
+  reverse-proxy:
+    image: nginx:1.17.10
+    container_name: reverse-proxy
+    depends_on:
+    # - postgres
+      - issue-system
+    volumes:
+      - ./reverse-proxy/nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - 80:80
+
+# # postgres service
+#   postgres:
+#     container_name: postgres
+#     build:
+#         context: ./postgres/service
+#     restart: unless-stopped
+#     env_file:
+#         - ./postgres/service/postgres.env
+#     ports:
+#         - 5432:5432
+#     volumes:
+#         - ./postgres/postgres-data/data:/var/lib/postgresql/data
+
+  # issue system service
+  issue-system:
+    image: issue-system
+    container_name: issue-system
+    build:
+      context: ./issue-server
+    volumes:
+      - ./issue-client/dist:/usr/src/app/www
+    env_file:
+      - ./issue-server/.env
+    ports:
+      - 3002:3002
+    restart: on-failure
