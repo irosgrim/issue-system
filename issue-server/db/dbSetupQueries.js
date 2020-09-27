@@ -26,17 +26,18 @@ const createIssuesTable = `
         operating_system character varying(100),
         browser character varying(100),
         device character varying(50),
-        status character varying(20) DEFAULT 'PENDING'::character varying,
-        assigned_to text,
+        status character varying(20) REFERENCES issue_status(status),
+        assigned_to text REFERENCES users(username),
         reported_date timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
-        updated_date timestamp without time zone
+        updated_date timestamp without time zone,
+        note text
     );
 `;
 
 const createIssueStatusTable = `
     CREATE TABLE issue_status (
         id SERIAL PRIMARY KEY,
-        status character varying(20) NOT NULL DEFAULT 'PENDING'::character varying UNIQUE
+        status character varying(20) NOT NULL UNIQUE
     );
 `;
 
