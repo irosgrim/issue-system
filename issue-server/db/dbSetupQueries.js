@@ -1,9 +1,9 @@
 const createIssuePriorityTable = `
-        CREATE TABLE IF NOT EXISTS issue_priority (
-            id SERIAL PRIMARY KEY,
-            priority text NOT NULL DEFAULT 'LOW'::text UNIQUE
-        );
-    `;
+    CREATE TABLE IF NOT EXISTS issue_priority (
+        id SERIAL PRIMARY KEY,
+        priority text NOT NULL DEFAULT 'LOW'::text UNIQUE
+    );
+`;
         
 const createUsersTable = `
     CREATE TABLE IF NOT EXISTS users (
