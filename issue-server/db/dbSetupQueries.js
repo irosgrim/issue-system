@@ -25,9 +25,10 @@ const createIssuesTable = `
         priority text REFERENCES issue_priority(priority),
         operating_system character varying(100),
         browser character varying(100),
+        device character varying(50),
         status character varying(20) DEFAULT 'PENDING'::character varying,
         assigned_to text,
-        reported_date timestamp without time zone NOT NULL DEFAULT '2020-09-24 12:32:08.363475'::timestamp without time zone,
+        reported_date timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
         updated_date timestamp without time zone
     );
 `;
