@@ -1,19 +1,39 @@
 const query = require('../db/dbHelpers').dbQuery;
 const eventEmitter = require('events');
 const { request } = require('https');
+const { insertNewIssue, getAllIssuesWithStatus, getAllIssues } = require('../db/dbQueries');
 class Route {
-    getOngoingIssues() {
+    getIssues() {
         return (req, res) => {
-            query(`SELECT * FROM issues`, [], (error, results) => {
-                if(error) {
-                    console.log(error);
-                    return;
-                }
-                res.send(results.rows)
-            })
+            const issueStatus = req.query.status;
+            if(issueStatus) {
+                query(getAllIssuesWithStatus, [issueStatus], (error, results) => {
+                    if(error) {
+                        console.log(error);
+                        return;
+                    }
+                    res.send(results.rows)
+                })
+            } else {
+                query(getAllIssues, [], (error, results) => {
+                    if(error) {
+                        console.log(error);
+                        return;
+                    }
+                    res.send(results.rows)
+                })
+            }
+            
         }
     }
-    sendNewIssue() {
+
+    getAllUsers() {
+        return (req, res) => {
+            res.send('list of all the users');
+        }
+    }
+
+    reportIssue() {
         return async (req, res) => {
             const { 
                 issueDescription, 
@@ -43,11 +63,7 @@ class Route {
                 return;
             }
 
-            query(`
-                INSERT INTO issues (issue_description, issue_location, issue_screenshot, reporter_name, priority, operating_system, browser, device) 
-                VALUES
-                ($1, $2, $3, $4, $5, $6, $7, $8)
-                `, 
+            query(insertNewIssue, 
                 [issueDescription, issueLocation, issueScreenshot, reporterName, priority, operatingSystem, browser, device], 
                 (error, results) => {
                     if(error) {
@@ -56,7 +72,41 @@ class Route {
                     }
                     res.status(200).send('OK');
                 }
-            )
+            );
+
+        }
+    }
+
+    assignIssueTo() {
+        return async(req, res) => {
+            const { issueId, user } = req.body;
+            if( !issueId || !user) {
+                res.status(400).send('Username and issue id must be provided');
+                return;
+            }
+            res.send(`assign issue ${issueId} to the user ${user}`);
+        }
+    }
+
+    setIssueStatus() {
+        return async (req, res) => {
+            const { issueId, issueStatus } = req.body;
+            if(!issueId || !issueStatus) {
+                res.status(400).send('Issue id and status must be provided');
+                return;
+            }
+            res.send(`set issue status for issue ${issueId} to ${issueStatus}`);
+        }
+    }
+
+    setIssueNote() {
+        return async (req, res) => {
+            const { issueId, note } = req.body;
+            if(!issueId || !note) {
+                res.status(400).send('Issue id and note must be provided');
+                return;
+            }
+            res.send(`set note: "${note}" to issue: ${issueId}`);
         }
     }
 }
