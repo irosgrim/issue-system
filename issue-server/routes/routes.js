@@ -2,26 +2,57 @@ const query = require('../db/dbHelpers').dbQuery;
 const eventEmitter = require('events');
 const { request } = require('https');
 const { insertNewIssue, getAllIssuesWithStatus, getAllIssues } = require('../db/dbQueries');
+
+class User {
+    registerUser() {
+        return (req, res) => {
+            const { name, username, password, email } = req.body;
+            const expectedFields = { name, username, password, email }
+            const requiredFields = Object.keys(pickBy(expectedFields, (x) => x === undefined));
+            if(requiredFields.length) {
+                res.status(400).send({required: requiredFields});
+                return;
+            }
+            res.cookie('token', 'the secret', { httpOnly: true, secure: false, maxAge: 1000 * 60 * 60 * 24});
+            res.send('Test cookie set');
+        }
+    }
+    loginUser() {
+        return (req, res) => {
+            const { email, password } = req.body;
+            const expectedFields = { email, password }
+            const requiredFields = Object.keys(pickBy(expectedFields, (x) => x === undefined));
+            if(requiredFields.length) {
+                res.status(400).send({required: requiredFields});
+            }
+        }
+    }
+}
 class Route {
     getIssues() {
         return (req, res) => {
             const issueStatus = req.query.status;
-            if(issueStatus) {
-                query(getAllIssuesWithStatus, [issueStatus], (error, results) => {
-                    if(error) {
-                        console.log(error);
-                        return;
-                    }
-                    res.send(results.rows)
-                })
+            const authorisedUser = req.authorisedUser;
+            if(authorisedUser) {
+                if(issueStatus) {
+                    query(getAllIssuesWithStatus, [issueStatus], (error, results) => {
+                        if(error) {
+                            console.log(error);
+                            return;
+                        }
+                        res.send(results.rows)
+                    })
+                } else {
+                    query(getAllIssues, [], (error, results) => {
+                        if(error) {
+                            console.log(error);
+                            return;
+                        }
+                        res.send(results.rows)
+                    })
+                }
             } else {
-                query(getAllIssues, [], (error, results) => {
-                    if(error) {
-                        console.log(error);
-                        return;
-                    }
-                    res.send(results.rows)
-                })
+                res.status(403).send('Unauthorised');
             }
             
         }
@@ -117,5 +148,6 @@ const pickBy = (obj, fn) =>
     .reduce((acc, key) => ((acc[key] = obj[key]), acc), {});
 
 module.exports = {
-    Route
+    Route,
+    User
 }
