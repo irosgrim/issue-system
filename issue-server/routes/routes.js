@@ -1,6 +1,4 @@
 const query = require('../db/dbHelpers').dbQuery;
-const eventEmitter = require('events');
-const { request } = require('https');
 const { insertNewIssue, getAllIssuesWithStatus, getAllIssues } = require('../db/dbQueries');
 
 class User {
@@ -69,25 +67,23 @@ class Route {
             const { 
                 issueDescription, 
                 issueLocation, 
-                issueScreenshot = '',
                 reporterName,
                 priority='LOW',
                 operatingSystem,
                 browser,
                 device
             } = req.body;
+            const issueScreenshot =  req.uploadedImageName || '';
 
             const expectedRequest = {
                 issueDescription, 
                 issueLocation, 
-                issueScreenshot,
                 reporterName,
                 priority,
                 operatingSystem,
                 browser,
                 device
             }
-
             const requiredFields = Object.keys(pickBy(expectedRequest, (x) => x === undefined));
             if(requiredFields.length) {
                 res.send({required : requiredFields});

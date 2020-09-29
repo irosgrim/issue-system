@@ -28,7 +28,7 @@ const createIssuesTable = `
         device character varying(50),
         status character varying(20) REFERENCES issue_status(status),
         assigned_to text REFERENCES users(username),
-        reported_date timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
+        reported_date timestamp without time zone DEFAULT timezone('utc'::text, now()),
         updated_date timestamp without time zone,
         note text
     );
