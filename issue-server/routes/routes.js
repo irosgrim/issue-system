@@ -5,10 +5,10 @@ class User {
     registerUser() {
         return (req, res) => {
             const { name, username, password, email } = req.body;
-            const expectedFields = { name, username, password, email }
-            const requiredFields = Object.keys(pickBy(expectedFields, (x) => x === undefined));
-            if(requiredFields.length) {
-                res.status(400).send({required: requiredFields});
+            const expectedUserInformation = { name, username, password, email }
+            const requiredUserInformation = Object.keys(pickBy(expectedUserInformation, (x) => x === undefined));
+            if(requiredUserInformation.length) {
+                res.status(400).send({required: requiredUserInformation});
                 return;
             }
             res.cookie('token', 'the secret', { httpOnly: true, secure: false, maxAge: 1000 * 60 * 60 * 24});
@@ -18,10 +18,10 @@ class User {
     loginUser() {
         return (req, res) => {
             const { email, password } = req.body;
-            const expectedFields = { email, password }
-            const requiredFields = Object.keys(pickBy(expectedFields, (x) => x === undefined));
-            if(requiredFields.length) {
-                res.status(400).send({required: requiredFields});
+            const expectedUserInformation = { email, password }
+            const requiredUserInformation = Object.keys(pickBy(expectedUserInformation, (x) => x === undefined));
+            if(requiredUserInformation.length) {
+                res.status(400).send({required: requiredUserInformation});
             }
         }
     }
@@ -73,9 +73,7 @@ class Route {
                 browser,
                 device
             } = req.body;
-            const issueScreenshot =  req.uploadedImageName || '';
-
-            const expectedRequest = {
+            const expectedIssueDetails = {
                 issueDescription, 
                 issueLocation, 
                 reporterName,
@@ -84,9 +82,10 @@ class Route {
                 browser,
                 device
             }
-            const requiredFields = Object.keys(pickBy(expectedRequest, (x) => x === undefined));
-            if(requiredFields.length) {
-                res.send({required : requiredFields});
+            const issueScreenshot =  req.uploadedImageName || '';
+            const requiredIssueDetails = Object.keys(pickBy(expectedIssueDetails, (x) => x === undefined));
+            if(requiredIssueDetails.length) {
+                res.status(400).send({required : requiredIssueDetails});
                 return;
             }
 
