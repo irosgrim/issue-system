@@ -48,7 +48,7 @@ const insertIssueStatusDefaultValues = `
     ('IN PROGRESS'), 
     ('STUCK'), 
     ('UNSOLVED'), 
-    ('SOLVED');
+    ('CLOSED');
 `;
 
 const insertIssuePriorityDefaultValues = `

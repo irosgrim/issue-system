@@ -6,8 +6,9 @@ const multerStorage = multer.diskStorage({
         cb(null, 'screenshots/');
     },
     filename: (req, file, cb) => {
+        console.log('reporterName =====>', req);
         const ext = file.mimetype.split('/')[1];
-        const filename = `${Date.now()}_${req.body.reporterName}.${ext}`;
+        const filename = `${Date.now()}.${ext}`;
         req.uploadedImageName = filename;
         cb(null, filename);
     }
@@ -30,7 +31,7 @@ const upload = multer({
     storage: multerStorage,
     fileFilter: multerFilter,
     limits: {
-        fileSize: 1000000 * 3
+        fileSize: 1024 * 1024 * 5
     }
 }).single('image');
 
