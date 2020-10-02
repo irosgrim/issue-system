@@ -22,6 +22,7 @@ app.use(baseUrl, express.static(path.join(__dirname, 'www')));
 
 app.get(`${baseUrl}/issues`, checkAuthorisation(), route.getIssues());
 app.get(`${baseUrl}/get-all-users`, checkAuthorisation(), route.getAllUsers());
+app.get('*', (req, res) => res.send('there is nothing to see here!'))
 
 app.post(`${baseUrl}/report-issue`, uploadIssueScreenshot, route.reportIssue());
 app.post(`${baseUrl}/assign-issue`, checkAuthorisation(), route.assignIssueTo());
@@ -29,6 +30,3 @@ app.post(`${baseUrl}/set-issue-status`, checkAuthorisation(), route.setIssueStat
 app.post(`${baseUrl}/set-issue-note`, checkAuthorisation(), route.setIssueNote());
 app.post(`${baseUrl}/register`, checkAuthorisation(), user.registerUser());
 app.post(`${baseUrl}/login`, checkAuthorisation(), user.loginUser());
-
-
-app.get('*', (req, res) => res.send('there is nothing to see here!'))
