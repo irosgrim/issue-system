@@ -67,36 +67,39 @@ class Route {
             const { 
                 issueDescription, 
                 issueLocation, 
-                reporterName,
+                email,
                 priority='LOW',
                 operatingSystem,
                 browser,
                 device
             } = req.body;
+
             const expectedIssueDetails = {
-                issueDescription, 
-                issueLocation, 
-                reporterName,
-                priority,
-                operatingSystem,
-                browser,
-                device
+                ['issue description']: issueDescription, 
+                ['issue location']: issueLocation, 
+                ["reporter's email"]: email,
+                ['priority']: priority,
+                ['operating system']: operatingSystem,
+                ['browser']: browser,
+                ['device']: device
             }
             const issueScreenshot =  req.uploadedImageName || '';
-            const requiredIssueDetails = Object.keys(pickBy(expectedIssueDetails, (x) => x === undefined));
+            const requiredIssueDetails = Object.keys(pickBy(expectedIssueDetails, (x) => x === undefined || !x));
+            const msg = requiredIssueDetails.join(', ').replace(/, ([^,]*)$/, ' & $1');
+
             if(requiredIssueDetails.length) {
-                res.status(400).send({required : requiredIssueDetails});
+                res.status(400).send({message: msg[0].toUpperCase() + msg.slice(1) + ' required'});
                 return;
             }
 
             query(insertNewIssue, 
-                [issueDescription, issueLocation, issueScreenshot, reporterName, priority, operatingSystem, browser, device], 
+                [issueDescription, issueLocation, issueScreenshot, email, priority, operatingSystem, browser, device], 
                 (error, results) => {
                     if(error) {
                         console.log(error);
                         return;
                     }
-                    res.status(200).send('OK');
+                    res.status(200).send({ message: 'The reference of the issue is: ', id: results.rows[0].id});
                 }
             );
 

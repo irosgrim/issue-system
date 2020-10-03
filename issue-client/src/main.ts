@@ -6,9 +6,9 @@ import store from './store'
 Vue.config.productionTip = false;
 Vue.config.devtools = true;
 
-Vue.config.errorHandler = function (err, vm, info) {
-    console.log(err + '---' + info);
-}
+// Vue.config.errorHandler = function (err, vm, info) {
+//     console.log(err + '---' + info);
+// }
 
 new Vue({
   router,

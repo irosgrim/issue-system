@@ -21,7 +21,7 @@ const createIssuesTable = `
         issue_description text NOT NULL,
         issue_location text NOT NULL,
         issue_screenshot character varying(100),
-        reporter_name character varying(50),
+        reporter_email character varying(50),
         priority text REFERENCES issue_priority(priority),
         operating_system character varying(100),
         browser character varying(100),
