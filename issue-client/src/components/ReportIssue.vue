@@ -1,5 +1,9 @@
 <template>
     <div>
+        <div id="nav">
+            <router-link to="/">reporter</router-link> |
+            <router-link to="/admin">admin</router-link>
+        </div>
         <div class="modal-frame" v-if="showStatusModal">
             <div class="modal-window">
                 <h3>The issue was submitted</h3>

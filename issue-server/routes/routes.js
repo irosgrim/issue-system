@@ -75,13 +75,13 @@ class Route {
             } = req.body;
 
             const expectedIssueDetails = {
-                ['issue description']: issueDescription, 
-                ['issue location']: issueLocation, 
+                ["issue description"]: issueDescription, 
+                ["issue location"]: issueLocation, 
                 ["reporter's email"]: email,
-                ['priority']: priority,
-                ['operating system']: operatingSystem,
-                ['browser']: browser,
-                ['device']: device
+                ["priority"]: priority,
+                ["operating system"]: operatingSystem,
+                ["browser"]: browser,
+                ["device"]: device
             }
             const issueScreenshot =  req.uploadedImageName || '';
             const requiredIssueDetails = Object.keys(pickBy(expectedIssueDetails, (x) => x === undefined || !x));
