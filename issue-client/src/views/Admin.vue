@@ -26,12 +26,60 @@
             </div>
 
             <div class="content">
-                <div style="text-align: left; padding: 0 1rem;">
+                <h1 style="text-align: left; margin-left: 1rem;">
+                        Issues
+                </h1>
+                <div class="issue">
+                    <div class="issue-details-wrapper">
+                       <div class="status-col">
+                           <div class="status-col-id">#0042</div>
+                           <div class="status-col-status">solved</div>
+                       </div>
+                       <div class="issue-body-col">
+                           <div class="subject-row">
+                               <div class="subject">The issue subject</div>
+                               <div class="issue-link">
+                                   <span style="color: #178550; text-decoration: underline;">The issue link</span>
+                                   <img src="@/assets/icons/open-black.svg" alt="" style="margin-left: 1rem; margin-bottom: -2px;">
+                                </div>
+                           </div>
+                           <div class="issue-body">
+                               The issue body
+                           </div>
+                       </div>
+                       <div class="info-col">
+                           <div style="margin-bottom: 0.5rem; color: #707070;">2020-01-13 13:42:25</div>
+                           <div style="display: flex"><div class="info">OS</div> MacosX</div>
+                           <div style="display: flex"><div class="info">Browser</div> Chrome</div>
+                           <div style="display: flex"><div class="info">Device</div> Macbook Pro</div>
+                           <div>
+                                <span class="link" style="color: #178550; text-decoration: underline;">
+                                    Screenshot
+                                </span>
+                                <img src="@/assets/icons/link-black.svg" alt="" style="margin-left: 1rem; margin-bottom: -4px;">
+                           </div>
+                       </div>
+                    </div>
+                    <div class="issue-footer">
+                        <div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                        </div>
+                        <button type="button" class="share-btn">
+                            <img src="@/assets/icons/share-black.svg" alt="share link to issue">
+                        </button>
+                    </div>
+                </div>
+                <!-- <div style="text-align: left; padding: 0 1rem;">
                     <h1>
                         Issues
                     </h1>
                     <div class="issue-filters-wrapper">
+                        <div>
 
+                        </div>
                     </div>
                 </div>
                 <ul class="issues">
@@ -163,8 +211,8 @@
                     </li>
                     
                 </ul>
-                
-            </div>
+                -->
+            </div> 
             <!-- <h1>Issue tracking admin</h1> -->
 
         </div>
@@ -239,49 +287,126 @@ export default class Admin extends Vue{
     margin-top: 1rem;
 }
 
-.issues {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  li {
-    width: 100%
-  }
-}
-.issue-header {
-    padding: 1rem;
-    font-weight: bold;
-}
-
-.issue-header, .issue {
-  display: flex;
-  width: 100%;
-}
-
 
 .issue {
   background-color: #ffffff;
-  padding: 1rem;
-  margin-bottom: 1rem;
-  border-radius: 4px;
+  border-radius: 5px;
 }
+.subject {
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+.issue-details-wrapper {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem;
+}
+.issue-footer {
+  border-top: 1px solid #e9e9e9;
+  background-color: #f8f8f8;
+  padding: 10px;
+  text-align: left;
+  border-radius: 0 0 5px 5px;
+  min-height: 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.share-btn {
+    border: none;
+    outline: none;
+    background-color: transparent;
+    padding: 0.5rem;
+}
+.status-col {
+  padding-right: 1rem;
+}
+.status-col-id {
+  height: 36px;
+  margin-left: -1rem;
+  font-weight: bold;
+  color: #707070;
+}
+.status-col-status {
+  background-color: #3EB77D;
+  font-weight: bold;
+  text-transform: uppercase;
+  text-align: center;
+  width: 140px;
+  padding: 0.5rem 0.2rem;
+  color: #ffffff;
+  border-radius: 0 5px 5px 0;
+  margin-left: -1rem;
+}
+.issue-body-col {
+  width: 100%;
+  border-right: 1px solid #e9e9e9;
+  padding: 0 1rem;
+}
+.subject-row {
+  display: flex;
+  justify-content: space-between;
+
+}
+.issue-body {
+  text-align: left;
+}
+.info-col {
+  text-align: left;
+  padding: 0 1rem;
+  min-width: 220px;
+}
+.info {
+    color: #707070;
+    width: 80px;
+}
+
+
+
+
+// .issues {
+//   list-style-type: none;
+//   margin: 0;
+//   padding: 0;
+//   li {
+//     width: 100%
+//   }
+// }
+// .issue-header {
+//     padding: 1rem;
+//     font-weight: bold;
+// }
+
+// .issue-header, .issue {
+//   display: flex;
+//   width: 100%;
+// }
+
+
+// .issue {
+//   background-color: #ffffff;
+//   padding: 1rem;
+//   margin-bottom: 1rem;
+//   border-radius: 4px;
+// }
 // .issue-description {
 //   width: 50%;
 // }
-.issue-description {
-    width: 100%; 
-    text-align: left;
-}
-.issue-info-wrapper{
-    display: flex; 
-    justify-content: flex-end;
-    width: 100%;
-    text-align: right;
+// .issue-description {
+//     width: 100%; 
+//     text-align: left;
+// }
+// .issue-info-wrapper{
+//     display: flex; 
+//     justify-content: flex-end;
+//     width: 100%;
+//     text-align: right;
 
-}
-select {
-    border: none;
-    text-align: right;
-}
+// }
+// select {
+//     border: none;
+//     text-align: right;
+// }
 // .issue-screenshot{
 //     width: 23px;
 //     text-align: right;
