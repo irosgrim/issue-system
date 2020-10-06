@@ -24,206 +24,27 @@
                     </button>
                 </div>
             </div>
-
             <div class="content">
                 <h1 style="text-align: left; margin-left: 1rem;">
-                        Issues
+                    Issues
                 </h1>
-                <div class="issue">
-                    <div class="issue-details-wrapper">
-                       <div class="status-col">
-                           <div class="status-col-id">#0042</div>
-                           <div class="status-col-status">solved</div>
-                       </div>
-                       <div class="issue-body-col">
-                           <div class="subject-row">
-                               <div class="subject">The issue subject</div>
-                               <div class="issue-link">
-                                   <span style="color: #178550; text-decoration: underline;">The issue link</span>
-                                   <img src="@/assets/icons/open-black.svg" alt="" style="margin-left: 1rem; margin-bottom: -2px;">
-                                </div>
-                           </div>
-                           <div class="issue-body">
-                               The issue body
-                           </div>
-                       </div>
-                       <div class="info-col">
-                           <div style="margin-bottom: 0.5rem; color: #707070;">2020-01-13 13:42:25</div>
-                           <div style="display: flex"><div class="info">OS</div> MacosX</div>
-                           <div style="display: flex"><div class="info">Browser</div> Chrome</div>
-                           <div style="display: flex"><div class="info">Device</div> Macbook Pro</div>
-                           <div>
-                                <span class="link" style="color: #178550; text-decoration: underline;">
-                                    Screenshot
-                                </span>
-                                <img src="@/assets/icons/link-black.svg" alt="" style="margin-left: 1rem; margin-bottom: -4px;">
-                           </div>
-                       </div>
-                    </div>
-                    <div class="issue-footer">
-                        <div>
-                            <div></div>
-                            <div></div>
-                            <div></div>
-                            <div></div>
-                        </div>
-                        <button type="button" class="share-btn">
-                            <img src="@/assets/icons/share-black.svg" alt="share link to issue">
-                        </button>
-                    </div>
-                </div>
-                <!-- <div style="text-align: left; padding: 0 1rem;">
-                    <h1>
-                        Issues
-                    </h1>
-                    <div class="issue-filters-wrapper">
-                        <div>
-
-                        </div>
-                    </div>
-                </div>
-                <ul class="issues">
-                    <li class="issue-header">
-                        <div class="issue-description">
-                            Description
-                        </div>
-                       <div class="issue-info-wrapper">
-                            
-                            <div class="issue-screenshot" style="margin-left: 1rem; width: 16px">
-                                
-                            </div>
-                            <div class="issue-priority" style="width: 95px; text-align: center;">
-                               Priority
-                            </div>
-                            <div class="issue-status" style="margin-left: 1rem; width: 113px; text-align: center;">
-                               Status
-                            </div>
-                            <div class="issue-date" style="margin-left: 1rem; width: 82px; text-align: center;">Date</div>
-                            <div class="issue-assigned" style="margin-left: 1rem; width: 109px; text-align: center;">
-                                Assigned to
-                            </div>
-                       </div>
-                    </li>
-                    <li class="issue">
-                        <div class="issue-description">
-                            The page is not working
-                        </div>
-                       <div class="issue-info-wrapper">
-                            <div class="issue-screenshot">
-                                <img src="@/assets/icons/image-black.svg" alt="link to screenshot of the issue">
-                            </div>
-                            <div class="issue-priority" style="margin-left: 1rem;">
-                                <select name="issuePriority" id="issuePriority">
-                                    <option value="LOW" selected>LOW</option>
-                                    <option value="MODERATE">MODERATE</option>
-                                    <option value="HIGH">HIGH</option>
-                                    <option value="CRITICAL">CRITICAL</option>
-                                </select>
-                            </div>
-                            <div class="issue-status" style="margin-left: 1rem;">
-                                <select name="issueStatus" id="issueStatus">
-                                    <option value="PENDING" selected>PENDING</option>
-                                    <option value="IN PROGRESS">IN PROGRESS</option>
-                                    <option value="STUCK">STUCK</option>
-                                    <option value="UNSOLVED">UNSOLVED</option>
-                                    <option value="SOLVED">SOLVED</option>
-                                </select>
-                            </div>
-                            <div class="issue-date" style="margin-left: 1rem;">2020-10-04</div>
-                            <div class="issue-assigned" style="margin-left: 1rem;">
-                                <select name="assignTO" id="assignTo">
-                                    <option value="UNASSIGNED" selected>UNASSIGNED</option>
-                                    <option value="ME">ME</option>
-                                    <option value="OTHER">OTHER</option>
-                                </select>
-                            </div>
-                       </div>
-                    </li>
-                    <li class="issue">
-                        <div class="issue-description">
-                            The page is not working
-                        </div>
-                       <div class="issue-info-wrapper">
-                            <div class="issue-screenshot">
-                                <img src="@/assets/icons/image-black.svg" alt="link to screenshot of the issue">
-                            </div>
-                            <div class="issue-priority" style="margin-left: 1rem;">
-                                <select name="issuePriority" id="issuePriority">
-                                    <option value="LOW" selected>LOW</option>
-                                    <option value="MODERATE">MODERATE</option>
-                                    <option value="HIGH">HIGH</option>
-                                    <option value="CRITICAL">CRITICAL</option>
-                                </select>
-                            </div>
-                            <div class="issue-status" style="margin-left: 1rem;">
-                                <select name="issueStatus" id="issueStatus">
-                                    <option value="PENDING" selected>PENDING</option>
-                                    <option value="IN PROGRESS">IN PROGRESS</option>
-                                    <option value="STUCK">STUCK</option>
-                                    <option value="UNSOLVED">UNSOLVED</option>
-                                    <option value="SOLVED">SOLVED</option>
-                                </select>
-                            </div>
-                            <div class="issue-date" style="margin-left: 1rem;">2020-10-04</div>
-                            <div class="issue-assigned" style="margin-left: 1rem;">
-                                <select name="assignTO" id="assignTo">
-                                    <option value="UNASSIGNED" selected>UNASSIGNED</option>
-                                    <option value="ME">ME</option>
-                                    <option value="OTHER">OTHER</option>
-                                </select>
-                            </div>
-                       </div>
-                    </li>
-                    <li class="issue">
-                        <div class="issue-description">
-                            The page is 
-                        </div>
-                       <div class="issue-info-wrapper">
-                            <div class="issue-screenshot">
-                                <img src="@/assets/icons/image-black.svg" alt="link to screenshot of the issue">
-                            </div>
-                            <div class="issue-priority" style="margin-left: 1rem;">
-                                <select name="issuePriority" id="issuePriority">
-                                    <option value="LOW" selected>LOW</option>
-                                    <option value="MODERATE">MODERATE</option>
-                                    <option value="HIGH">HIGH</option>
-                                    <option value="CRITICAL">CRITICAL</option>
-                                </select>
-                            </div>
-                            <div class="issue-status" style="margin-left: 1rem;">
-                                <select name="issueStatus" id="issueStatus">
-                                    <option value="PENDING" selected>PENDING</option>
-                                    <option value="IN PROGRESS">IN PROGRESS</option>
-                                    <option value="STUCK">STUCK</option>
-                                    <option value="UNSOLVED">UNSOLVED</option>
-                                    <option value="SOLVED">SOLVED</option>
-                                </select>
-                            </div>
-                            <div class="issue-date" style="margin-left: 1rem;">2020-10-04</div>
-                            <div class="issue-assigned" style="margin-left: 1rem;">
-                                <select name="assignTO" id="assignTo">
-                                    <option value="UNASSIGNED" selected>UNASSIGNED</option>
-                                    <option value="ME">ME</option>
-                                    <option value="OTHER">OTHER</option>
-                                </select>
-                            </div>
-                       </div>
-                    </li>
-                    
-                </ul>
-                -->
-            </div> 
-            <!-- <h1>Issue tracking admin</h1> -->
-
+                <Issue style="margin-bottom: 1rem"/>
+                <Issue style="margin-bottom: 1rem"/>
+                <Issue style="margin-bottom: 1rem"/>
+            </div>
         </div>
-
     </div>
 </template>
 
 <script lang="ts">
 import {Vue, Component} from 'vue-property-decorator';
+import Issue from '@/components/Issue.vue';
 
-@Component({})
+@Component({
+    components: {
+        Issue
+    }
+})
 export default class Admin extends Vue{
     
 }
@@ -245,6 +66,7 @@ export default class Admin extends Vue{
         display: flex;
         justify-content: space-between;
         align-items: center;
+        border-radius: 5px;
     }
 
     .logo {
@@ -295,6 +117,7 @@ export default class Admin extends Vue{
 .subject {
     font-weight: bold;
     margin-bottom: 1rem;
+    text-align: left;
 }
 .issue-details-wrapper {
   display: flex;
@@ -317,6 +140,17 @@ export default class Admin extends Vue{
     outline: none;
     background-color: transparent;
     padding: 0.5rem;
+    opacity: 0.5;
+    transition: 0.3s;
+    cursor: pointer;
+    &:hover{
+        opacity: 1;
+        transition: 0.3s;
+    }
+    &:focus {
+        opacity: 1;
+        transition: 0.3s;
+    }
 }
 .status-col {
   padding-right: 1rem;
@@ -327,16 +161,27 @@ export default class Admin extends Vue{
   font-weight: bold;
   color: #707070;
 }
-.status-col-status {
+.status-btn {
   background-color: #3EB77D;
   font-weight: bold;
   text-transform: uppercase;
   text-align: center;
   width: 140px;
-  padding: 0.5rem 0.2rem;
+  padding: 0.5rem 6px;
   color: #ffffff;
   border-radius: 0 5px 5px 0;
   margin-left: -1rem;
+  border: none;
+  border-left: none;
+  outline: none;
+  font-size: 0.82rem;
+  cursor: pointer;
+
+  &:focus{
+      border-left: 6px solid blue;
+     padding-left: 0;
+     
+  }
 }
 .issue-body-col {
   width: 100%;
@@ -356,77 +201,53 @@ export default class Admin extends Vue{
   padding: 0 1rem;
   min-width: 220px;
 }
-.info {
+.info-label {
     color: #707070;
     width: 80px;
 }
-
-
-
-
-// .issues {
-//   list-style-type: none;
-//   margin: 0;
-//   padding: 0;
-//   li {
-//     width: 100%
-//   }
-// }
-// .issue-header {
-//     padding: 1rem;
-//     font-weight: bold;
-// }
-
-// .issue-header, .issue {
-//   display: flex;
-//   width: 100%;
-// }
-
-
-// .issue {
-//   background-color: #ffffff;
-//   padding: 1rem;
-//   margin-bottom: 1rem;
-//   border-radius: 4px;
-// }
-// .issue-description {
-//   width: 50%;
-// }
-// .issue-description {
-//     width: 100%; 
-//     text-align: left;
-// }
-// .issue-info-wrapper{
-//     display: flex; 
-//     justify-content: flex-end;
-//     width: 100%;
-//     text-align: right;
-
-// }
-// select {
-//     border: none;
-//     text-align: right;
-// }
-// .issue-screenshot{
-//     width: 23px;
-//     text-align: right;
-
-// }
-// .issue-priority {
-//     width: 80px;
-//     text-align: right;
-
-// }
-// .issue-status {
-//     width: 110px;
-//     text-align: right;
-
-
-// }
-// .issue-assigned {
-//     width: 120px;
-//     text-align: right;
-
-// }
+.info {
+    color: #000000;
+}
+.footer-sections {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+.footer-section {
+  border-right: 1px solid #e5e5e5;
+  padding-right: 1.5rem;
+}
+.footer-section:not(:first-child) {
+  padding-left: 1.5rem;
+}
+.reporter {
+  display: flex;
+  align-items: center;
+}
+.avatar {
+  margin-right: 0.5rem;
+  background-color: #ffc808;
+  height: 31px;
+  width: 31px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.8rem;
+  font-weight: bold;
+  color: #ffffff;
+  .avatar-text {
+    height: 16px;
+    width: 16px;
+    }
+}
+.footer-section-label {
+  margin: 0;
+  color: #707070;
+}
+.footer-section-value {
+  color: #000000;
+  font-weight: 0.9rem;
+}
 
 </style>
