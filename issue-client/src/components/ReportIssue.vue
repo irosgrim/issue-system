@@ -127,3 +127,8 @@ export default class ReportIssue extends Vue {
 
 }
 </script>
+
+<style lang="scss">
+@import '@/styles/report-issue.scss';
+</style>
+

@@ -2,73 +2,52 @@
     <div class="issue">
         <div class="issue-details-wrapper">
             <div class="status-col">
-                <div class="status-col-id">#0042</div>
-                <div class="status-select">
-                    <button type="button" class="status-btn">solved</button>
-                    <ul class="status-options">
-                        <li>
-                            <button type="button" class="status-option-btn">
-                                pending
-                            </button>
-                        </li>
-                        <li>
-                            <button type="button" class="status-option-btn">
-                                in progress
-                            </button>
-                        </li>
-                        <li>
-                            <button type="button" class="status-option-btn">
-                                stuck
-                            </button>
-                            </li>
-                        <li>
-                            <button type="button" class="status-option-btn">
-                                unsolved
-                            </button>
-                            
-                        </li>
-                        <li>
-                            <button type="button" class="status-option-btn">
-                                closed
-                            </button>
-                            
-                        </li>
-                    </ul>
-                </div>
+                <div class="status-col-id">#{{issue.id}}</div>
+                <Dropdown :options="statusOptions" :toggleOptions="showStatusOptions" @option="setIssueStatus">
+                    <button 
+                        type="button" 
+                        class="status-btn" 
+                        @click="onToggleStatusOptions"
+                    >
+                        {{statusOptions[selectedStatusOption]}}
+                    </button>
+                </Dropdown>
             </div>
             <div class="issue-body-col">
                 <div class="subject-row">
-                    <div class="subject">The issue subject</div>
+                    <div class="subject">{{issue.issueSubject}}</div>
                     <div class="issue-link">
-                        <span style="color: #178550; text-decoration: underline;">The issue link</span>
+                        <span style="color: #178550; text-decoration: underline;">
+                            <a :href="issue.issueLocation">Link to issue</a>
+                        </span>
                         <img src="@/assets/icons/open-black.svg" alt="" style="margin-left: 1rem; margin-bottom: -2px;">
                     </div>
                 </div>
                 <div class="issue-body">
-                    The issue body
+                    {{issue.issueDescription}}
                 </div>
             </div>
             <div class="info-col">
-                <div style="margin-bottom: 0.5rem; color: #707070;">2020-01-13 13:42:25</div>
+                <div style="margin-bottom: 0.5rem; color: #707070;">{{issue.reportedDate}}</div>
                 <div style="display: flex">
                     <div class="info-label">OS</div> 
-                        <div class="info">MacosX</div>
+                        <div class="info">{{issue.operatingSystem}}</div>
                     </div>
                 <div style="display: flex">
                     <div class="info-label">
                         Browser
                     </div> 
-                    <div class="info">Chrome</div>
+                    <div class="info">{{issue.browser}}</div>
                 </div>
                 <div style="display: flex">
                     <div class="info-label">
                         Device
                     </div> 
-                    <div class="info">Macbook Pro</div>
+                    <div class="info">{{issue.device}}</div>
                 </div>
                 <div>
                     <span class="link" style="color: #178550; text-decoration: underline;">
-                        Screenshot
+                        <a :href="issue.issueScreenshot">Screenshot</a>
                     </span>
                     <img src="@/assets/icons/link-black.svg" alt="" style="margin-left: 1rem; margin-bottom: -4px;">
                 </div>
@@ -83,21 +62,55 @@
                         </div>
                         <div>
                             <h6 class="footer-section-label">Reported by</h6>
-                            <span class="footer-section-value">Takashi Ryushin</span>
+                            <span class="footer-section-value">{{ issue.reporterEmail }}</span>
                         </div>
                     </div>
                 </div>
                 <div class="footer-section">
                     <h6 class="footer-section-label">Category</h6>
-                    <span class="footer-section-value">Uncategorised</span>
+                    <!-- <span class="footer-section-value">Uncategorised</span> -->
+                    <Dropdown :options="categoryOptions" :toggleOptions="showCategoryOptions" @option="setCategory">
+                        <button 
+                            type="button" 
+                            class="footer-section-value"
+                             @click="onToggleCategoryOptions"
+                             style="min-width: 120px; text-align: left; border: none; background-color: transparent;"
+                            >
+                                <span style="margin-left: -6px">
+                                    {{categoryOptions[selectedCategoryOption]}}
+                                </span>
+                            </button>
+                    </Dropdown>
                 </div>
                 <div class="footer-section">
                     <h6 class="footer-section-label">Assigned to</h6>
-                    <span class="footer-section-value">John Doe</span>
+                    <Dropdown :options="assignedToOptions" :toggleOptions="showAssignedToOptions" @option="setAssignedTo">
+                        <button 
+                            type="button" 
+                            class="footer-section-value"
+                             @click="onToggleAssignedToOptions"
+                             style="min-width: 120px; text-align: left; border: none; background-color: transparent;"
+                            >
+                                <span style="margin-left: -6px">
+                                    {{assignedToOptions[selectedAssignedToOption]}}
+                                </span>
+                            </button>
+                    </Dropdown>
                 </div>
                 <div class="footer-section">
                     <h6 class="footer-section-label">Priority</h6>
-                    <span class="footer-section-value">LOW</span>
+                    <Dropdown :options="priorityOptions" :toggleOptions="showPriorityOptions" @option="setPriority">
+                        <button 
+                            type="button" 
+                            class="footer-section-value"
+                             @click="onTogglePriorityOptions"
+                             style="min-width: 120px; text-align: left; border: none; background-color: transparent;"
+                            >
+                                <span style="margin-left: -6px">
+                                    {{priorityOptions[selectedPriorityOption]}}
+                                </span>
+                            </button>
+                    </Dropdown>
                 </div>
             </div>
             <button type="button" class="share-btn">
@@ -108,66 +121,67 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component } from 'vue-property-decorator';
+import { Vue, Component, Prop } from 'vue-property-decorator';
+import Dropdown from '@/components/Dropdown.vue';
 
-@Component({})
+@Component({
+    components: {
+        Dropdown
+    }
+})
 export default class Issue extends Vue {
+    @Prop() private issue!: any;
+    private showStatusOptions= false;
+    private showCategoryOptions= false;
+    private showAssignedToOptions= false;
+    private showPriorityOptions= false;
+
+
+    private selectedStatusOption = 0;
+    private selectedCategoryOption = 0;
+    private selectedAssignedToOption = 0;
+    private selectedPriorityOption = 0;
+    private statusOptions = ["PENDING", "IN PROGRESS", "STUCK", "UNSOLVED", "CLOSED"];
+    private categoryOptions = ["UNCATEGORISED", "SITE", "TICKETS"];
+    private assignedToOptions = ["Ryu", "Kitsune", "Momo"];
+    private priorityOptions = ["LOW", "MEDIUM", "HIGH", "CRITICAL"];
+
+    private onToggleStatusOptions() {
+        this.showStatusOptions = !this.showStatusOptions;
+    }
+
+    private setIssueStatus(newIssueStatus: number) {
+        this.selectedStatusOption = newIssueStatus;
+        this.showStatusOptions = false;
+    }
+
+    private onToggleCategoryOptions() {
+        this.showCategoryOptions = !this.showCategoryOptions;
+    }
+
+    private setCategory(category: number) {
+        this.selectedCategoryOption = category;
+        this.showCategoryOptions = false;
+    }
+
+    private onToggleAssignedToOptions() {
+        this.showAssignedToOptions = !this.showAssignedToOptions;
+    }
+
+    private setAssignedTo(user: number) {
+        this.selectedAssignedToOption = user;
+        this.showAssignedToOptions = false;
+    }
+
+    private onTogglePriorityOptions() {
+        this.showPriorityOptions = !this.showPriorityOptions;
+    }
+
+    private setPriority(priority: number) {
+        this.selectedPriorityOption = priority;
+        this.showPriorityOptions = false;
+    }
 
 }
 
 </script>
-
-<style lang="scss">
-
-.status-select {
-  position: relative;
-}
-.status-options {
-  position: absolute;
-  text-align: left;
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  right: 0;
-  background-color: #ffffff;
-  width: calc(100% + 1rem);
-  border-radius: 0 0 5px 0;
-  border: 1px solid #e9e9e9;
-}
-.status-options li {
-    text-transform: uppercase;
-    font-size: 0.82rem;
-}
-.status-option-btn {
-    width: 100%;
-    height: 100%;
-    border: none;
-    outline: none;
-    background-color: transparent;
-    padding: 0.3rem 6px;
-  &:focus{
-      border-left: 6px solid blue;
-      padding-left: 0;
-     
-  }
-}
-.color {
-  height: auto;
-  width: 16px;
-}
-.yellow {
-  background-color: yellow;
-}
-.orange {
-  background-color: orange;
-}
-.red {
-    background-color: red;
-}
-.black {
-    background-color: black;
-}
-.blue {
-    background-color: blue;
-}
-</style>
