@@ -1,7 +1,7 @@
 <template>
-    <ul class="options" v-if="toggleOptions" ref="options">
+    <ul class="options" v-show="toggleOptions" ref="options" v-click-outside="onClickOutside">
         <li v-for="(option, optionIndex) in options" :key="option">
-            <button type="button" class="option-btn" @click="setSelected(optionIndex)">
+            <button type="button" class="option-btn" @click="setSelected(optionIndex)" tabindex="0">
                 {{option}}
             </button>
         </li>
@@ -15,74 +15,72 @@ import { Vue, Component, Prop } from 'vue-property-decorator';
 export default class Options extends Vue {
     @Prop() options!: string[];
     @Prop() toggleOptions!: boolean;
-    private selectedOption = 0;
-    private numberOfOptioons = 0;
+    @Prop() selectedOption!: number;
+    private optionsElement: HTMLElement | undefined = undefined;
+    private items: HTMLCollection | undefined = undefined;
+    private numberOfOptions = 0;
+    private chosenOption = 0;
 
     private mounted() {
-        // const options = this.$refs.options;
-        const optionsElement = this.$refs.options as HTMLElement;
         this.$nextTick(() => {
-            const optionsChildren = optionsElement.children;
-            this.numberOfOptioons = optionsChildren.length - 1;
-            (optionsChildren[this.selectedOption].firstChild as HTMLButtonElement).focus();
+            this.chosenOption = this.selectedOption;
+            this.optionsElement = this.$refs.options as HTMLElement;
+            this.items= this.optionsElement.children;
+            this.numberOfOptions = this.items.length - 1;
+            (this.items[this.chosenOption].firstChild as HTMLButtonElement).focus();
+            window.addEventListener("keydown", this.keyboardNavigation);
         });
-        document.addEventListener("keydown", this.keyboardNavigation);
         
     }
 
     private keyboardNavigation(e: KeyboardEvent) {
-        const optionsElement = this.$refs.options as HTMLElement;
-        const optionsChildren = optionsElement.children;
         switch (e.key) {
             case "ArrowUp":
-                if(this.selectedOption > 0) {
-                    this.selectedOption -= 1;
-                    console.log(this.selectedOption);
-                } else {
-                    this.selectedOption = this.numberOfOptioons;
-                }
+                if(this.chosenOption > 0) {
+                    this.chosenOption -= 1;
+                    (this.items[this.chosenOption].firstChild as HTMLButtonElement).focus();
+                    break;
 
-            break;
-        case "ArrowDown":
-            if(this.selectedOption < this.numberOfOptioons) {
-                    this.selectedOption -= 1;
-                    console.log(this.selectedOption);
-                } else {
-                    this.selectedOption = this.numberOfOptioons;
-                }
-            break;
-            
-        // case "ArrowUp":
-        //     if(selectedOption > 0) {
-        //         (optionsChildren[selectedOption].firstChild as HTMLButtonElement).focus()
-        //         selectedOption -= 1;
-        //     } else {
-        //         selectedOption = optionsChildren.length;
-        //     }
-        //     break;
-        // case "ArrowDown":
-        //     if(selectedOption < optionsChildren.length - 1) {
-        //     selectedOption += 1;
-        //         (optionsChildren[selectedOption].firstChild as HTMLButtonElement).focus()
-        //     } else {
-        //         selectedOption = 0;
-        //     }
-        //     break;
-        case "Escape":
-            this.$emit("close");
-            break;
-        default:
-            return;
+                } 
+                this.chosenOption = this.numberOfOptions;
+                (this.items[this.chosenOption].firstChild as HTMLButtonElement).focus();
+                break;
+
+            case "ArrowDown":
+                if(this.chosenOption < this.numberOfOptions) {
+                    this.chosenOption += 1;
+                    (this.items[this.chosenOption].firstChild as HTMLButtonElement).focus();
+                    break;
+
+                } 
+                this.chosenOption = 0;
+                (this.items[this.chosenOption].firstChild as HTMLButtonElement).focus();
+                break;
+
+            case "Escape":
+                this.$emit("close");
+                break;
+
+            default:
+                return;
         }
         e.preventDefault();
-  }
+    }
+
+    private handleClickOutside(e: Event) {
+        console.log(e.target);
+    }
 
     private destroyed() {
-        document.removeEventListener("keydown", this.keyboardNavigation);
+        window.removeEventListener("keydown", this.keyboardNavigation);
     }
 
     private setSelected(option: number) {
         this.$emit('option', option);
+    }
+
+    private onClickOutside() {
+        this.$emit('close');
     }
 }
 </script>

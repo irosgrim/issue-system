@@ -28,7 +28,12 @@
                 <h1 style="text-align: left; margin-left: 1rem;">
                     Issues
                 </h1>
-                <Issue style="margin-bottom: 1rem" v-for="issue in testIssues" :key="issue.id" :issue="issue"/>
+                <Issue 
+                    style="margin-bottom: 1rem" 
+                    v-for="issue in testIssues" 
+                    :key="issue.id" 
+                    :issue="issue"
+                />
             </div>
         </div>
     </div>
@@ -70,11 +75,11 @@ export default class Admin extends Vue{
             issueLocation: 'http://www.the.url.to-issue.com',
             issueScreenshot: 'https://url-to-the-image.com/image.png',
             reporterEmail: 'ryushin@sky.jp',
-            priority: 'LOW',
+            priority: 'CRITICAL',
             operatingSystem: 'MacOsX',
             browser: 'Chrome 42',
             device: 'Macbook Pro',
-            status: 'PENDING',
+            status: 'CLOSED',
             assignedTo: null,
             reportedDate: new Date('2020-09-24'),
             updatedDate: null,

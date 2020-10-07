@@ -1,7 +1,7 @@
 .admin-wrapper {
     background-color: #edeff7;
     min-height: 100vh;
-
+    padding-bottom: 5rem;
     .admin {
         padding: 2rem;
         max-width: 1120px;
@@ -173,7 +173,7 @@
 
 .info-label {
     color: #707070;
-    width: 80px;
+    min-width: 80px;
 }
 
 .info {

@@ -4,7 +4,9 @@
         <Options 
             :toggleOptions="toggleOptions" 
             :options="options" 
-            @option="setSelected" 
+            :selectedOption="selectedOption"
+            @option="setSelected"
+            @close="$emit('close')"
             v-if="toggleOptions"
         />
     </div>
@@ -22,6 +24,7 @@ import Options from '@/components/Options.vue';
 export default class Dropdown extends Vue {
     @Prop({ default: false }) toggleOptions!: boolean;
     @Prop() options!: string[];
+    @Prop() selectedOption!: number;
     // @Prop() selected!: number;
 
     private setSelected(option: number) {
@@ -67,7 +70,8 @@ export default class Dropdown extends Vue {
     padding: 0.3rem 6px;
 
     &:focus {
-        border-left: 6px solid blue;
+        border-left: 6px solid #b9c4d3;
+        background-color: #f0f3fa;
         padding-left: 0;
 
     }

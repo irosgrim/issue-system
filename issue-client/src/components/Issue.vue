@@ -4,10 +4,17 @@
             <div class="status-col">
                 <div class="status-col-id">#{{issue.id}}</div>
                 <div style="margin-left: -1rem;">
-                    <Dropdown :options="statusOptions" :toggleOptions="showStatusOptions" @option="setIssueStatus">
+                    <Dropdown 
+                        :options="statusOptions" 
+                        :toggleOptions="showStatusOptions"
+                        :selectedOption="selectedStatusOption"
+                        @option="setIssueStatus"
+                        @close="onToggleStatusOptions"
+                    >
                     <button 
                         type="button" 
-                        class="status-btn" 
+                        class="status-btn"
+                        :style="statusColor(selectedStatusOption)"
                         @click="onToggleStatusOptions"
                     >
                         {{statusOptions[selectedStatusOption]}}
@@ -30,7 +37,7 @@
                 </div>
             </div>
             <div class="info-col">
-                <div style="margin-bottom: 0.5rem; color: #707070;">{{issue.reportedDate}}</div>
+                <div style="margin-bottom: 0.5rem; color: #707070;">{{getDate(issue.reportedDate)}}</div>
                 <div style="display: flex">
                     <div class="info-label">OS</div> 
                         <div class="info">{{issue.operatingSystem}}</div>
@@ -71,12 +78,18 @@
                 <div class="footer-section">
                     <h6 class="footer-section-label">Category</h6>
                     <!-- <span class="footer-section-value">Uncategorised</span> -->
-                    <Dropdown :options="categoryOptions" :toggleOptions="showCategoryOptions" @option="setCategory">
+                    <Dropdown 
+                        :options="categoryOptions" 
+                        :toggleOptions="showCategoryOptions" 
+                        :selectedOption="selectedCategoryOption"
+                        @option="setCategory"
+                        @close="onToggleCategoryOptions"
+                    >
                         <button 
                             type="button" 
                             class="footer-section-value"
                              @click="onToggleCategoryOptions"
-                             style="min-width: 120px; text-align: left; border: none; background-color: transparent;"
+                             style="min-width: 160px; text-align: left; border: none; background-color: transparent;"
                             >
                                 <span style="margin-left: -6px">
                                     {{categoryOptions[selectedCategoryOption]}}
@@ -86,7 +99,13 @@
                 </div>
                 <div class="footer-section">
                     <h6 class="footer-section-label">Assigned to</h6>
-                    <Dropdown :options="assignedToOptions" :toggleOptions="showAssignedToOptions" @option="setAssignedTo">
+                    <Dropdown 
+                        :options="assignedToOptions" 
+                        :toggleOptions="showAssignedToOptions"
+                        :selectedOption="selectedAssignedToOption"
+                        @option="setAssignedTo"
+                        @close="onToggleAssignedToOptions"
+                    >
                         <button 
                             type="button" 
                             class="footer-section-value"
@@ -101,7 +120,13 @@
                 </div>
                 <div class="footer-section">
                     <h6 class="footer-section-label">Priority</h6>
-                    <Dropdown :options="priorityOptions" :toggleOptions="showPriorityOptions" @option="setPriority">
+                    <Dropdown 
+                        :options="priorityOptions" 
+                        :toggleOptions="showPriorityOptions"
+                        :selectedOption="selectedPriorityOption"
+                        @option="setPriority"
+                        @close="onTogglePriorityOptions"
+                    >
                         <button 
                             type="button" 
                             class="footer-section-value"
@@ -148,6 +173,11 @@ export default class Issue extends Vue {
     private assignedToOptions = ["Ryu", "Kitsune", "Momo"];
     private priorityOptions = ["LOW", "MEDIUM", "HIGH", "CRITICAL"];
 
+    private mounted() {
+        this.selectedStatusOption = this.statusOptions.indexOf(this.issue.status);
+        this.selectedPriorityOption = this.priorityOptions.indexOf(this.issue.priority);
+    }
+
     private onToggleStatusOptions() {
         this.showStatusOptions = !this.showStatusOptions;
     }
@@ -183,6 +213,22 @@ export default class Issue extends Vue {
         this.selectedPriorityOption = priority;
         this.showPriorityOptions = false;
     }
+
+    private statusColor(status) {
+        const colors = ["#64686f", "#eba925", "#f78ae0", "#cb0a4c", "#20a874"];
+        return {backgroundColor: colors[status]};
+    }
+
+    private getDate(date: Date): string {
+    if(date) {
+        const d = new Date(date);
+        const correctMonth = d.getMonth() + 1;
+        const day = d.getDate() < 10 ? '0' + d.getDate() : d.getDate();
+        const month = correctMonth < 10 ? '0' + correctMonth : correctMonth;
+        return d.getFullYear() + '-' + month + '-' + day;
+    }
+    return '';
+}
 
 }
 
