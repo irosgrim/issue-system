@@ -26,7 +26,7 @@
                 <div class="subject-row">
                     <div class="subject">{{issue.issueSubject}}</div>
                     <div class="issue-link">
-                        <span style="color: #178550; text-decoration: underline;">
+                        <span>
                             <a :href="issue.issueLocation">Link to issue</a>
                         </span>
                         <img src="@/assets/icons/open-black.svg" alt="" style="margin-left: 1rem; margin-bottom: -2px;">
@@ -55,7 +55,7 @@
                     <div class="info">{{issue.device}}</div>
                 </div>
                 <div>
-                    <span class="link" style="color: #178550; text-decoration: underline;">
+                    <span class="link">
                         <a :href="issue.issueScreenshot">Screenshot</a>
                     </span>
                     <img src="@/assets/icons/link-black.svg" alt="" style="margin-left: 1rem; margin-bottom: -4px;">
