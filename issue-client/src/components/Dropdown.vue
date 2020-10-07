@@ -1,21 +1,24 @@
 <template>
     <div class="select">
         <slot></slot>
-        <ul class="options" v-if="toggleOptions" ref="options">
-            <li v-for="(option, optionIndex) in options" :key="option">
-                <button type="button" class="option-btn" @click="setSelected(optionIndex)">
-                    {{option}}
-                </button>
-            </li>
-            
-        </ul>
+        <Options 
+            :toggleOptions="toggleOptions" 
+            :options="options" 
+            @option="setSelected" 
+            v-if="toggleOptions"
+        />
     </div>
 </template>
 
 <script lang="ts">
 import { Vue, Component, Prop} from 'vue-property-decorator';
+import Options from '@/components/Options.vue';
 
-@Component({})
+@Component({
+    components: {
+        Options
+    }
+})
 export default class Dropdown extends Vue {
     @Prop({ default: false }) toggleOptions!: boolean;
     @Prop() options!: string[];
@@ -44,7 +47,7 @@ export default class Dropdown extends Vue {
     right: 0;
     width: 100%;
     background-color: #ffffff;
-    width: calc(100% + 1rem);
+    width: 100%;
     border-radius: 0 0 5px 0;
     border: 1px solid #e9e9e9;
 }

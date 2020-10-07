@@ -3,7 +3,8 @@
         <div class="issue-details-wrapper">
             <div class="status-col">
                 <div class="status-col-id">#{{issue.id}}</div>
-                <Dropdown :options="statusOptions" :toggleOptions="showStatusOptions" @option="setIssueStatus">
+                <div style="margin-left: -1rem;">
+                    <Dropdown :options="statusOptions" :toggleOptions="showStatusOptions" @option="setIssueStatus">
                     <button 
                         type="button" 
                         class="status-btn" 
@@ -12,6 +13,7 @@
                         {{statusOptions[selectedStatusOption]}}
                     </button>
                 </Dropdown>
+                </div>
             </div>
             <div class="issue-body-col">
                 <div class="subject-row">
