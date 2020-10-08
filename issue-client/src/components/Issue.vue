@@ -98,27 +98,6 @@
                     </Dropdown>
                 </div>
                 <div class="footer-section">
-                    <h6 class="footer-section-label">Assigned to</h6>
-                    <Dropdown 
-                        :options="assignedToOptions" 
-                        :toggleOptions="showAssignedToOptions"
-                        :selectedOption="selectedAssignedToOption"
-                        @option="setAssignedTo"
-                        @close="onToggleAssignedToOptions"
-                    >
-                        <button 
-                            type="button" 
-                            class="footer-section-value"
-                             @click="onToggleAssignedToOptions"
-                             style="min-width: 120px; text-align: left; border: none; background-color: transparent;"
-                            >
-                                <span style="margin-left: -6px">
-                                    {{assignedToOptions[selectedAssignedToOption]}}
-                                </span>
-                            </button>
-                    </Dropdown>
-                </div>
-                <div class="footer-section">
                     <h6 class="footer-section-label">Priority</h6>
                     <Dropdown 
                         :options="priorityOptions" 
@@ -127,22 +106,48 @@
                         @option="setPriority"
                         @close="onTogglePriorityOptions"
                     >
-                        <button 
-                            type="button" 
-                            class="footer-section-value"
-                             @click="onTogglePriorityOptions"
-                             style="min-width: 120px; text-align: left; border: none; background-color: transparent;"
-                            >
-                                <span style="margin-left: -6px">
-                                    {{priorityOptions[selectedPriorityOption]}}
-                                </span>
+                        <div class="footer-btn-wrapper">
+                            <div class="circle" :class="'color-' + selectedPriorityOption"></div>
+                            <button 
+                                type="button" 
+                                class="footer-section-value"
+                                @click="onTogglePriorityOptions"
+                                style="min-width: 120px; text-align: left; border: none; background-color: transparent;"
+                                >
+                                    <span style="margin-left: -6px">
+                                        {{priorityOptions[selectedPriorityOption]}}
+                                    </span>
                             </button>
+                        </div>
                     </Dropdown>
                 </div>
+            </div>
+            <div class="footer-sections">
+                <div class="footer-section">
+                <h6 class="footer-section-label">Assigned to</h6>
+                <Dropdown 
+                    :options="assignedToOptions" 
+                    :toggleOptions="showAssignedToOptions"
+                    :selectedOption="selectedAssignedToOption"
+                    @option="setAssignedTo"
+                    @close="onToggleAssignedToOptions"
+                >
+                    <button 
+                        type="button" 
+                        class="footer-section-value"
+                            @click="onToggleAssignedToOptions"
+                            style="min-width: 120px; text-align: left; border: none; background-color: transparent;"
+                        >
+                            <span style="margin-left: -6px">
+                                {{assignedToOptions[selectedAssignedToOption]}}
+                            </span>
+                        </button>
+                </Dropdown>
             </div>
             <button type="button" class="share-btn">
                 <img src="@/assets/icons/share-black.svg" alt="share link to issue">
             </button>
+            </div>
         </div>
     </div>
 </template>
