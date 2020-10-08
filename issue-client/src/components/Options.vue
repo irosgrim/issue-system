@@ -1,7 +1,20 @@
 <template>
-    <ul class="options" v-show="toggleOptions" ref="options" v-click-outside="onClickOutside">
-        <li v-for="(option, optionIndex) in options" :key="option">
-            <button type="button" class="option-btn" @click="setSelected(optionIndex)" tabindex="0">
+    <ul 
+        v-if="toggleOptions" 
+        class="options" 
+        ref="options" 
+        v-click-outside="onClickOutside"
+    >
+        <li 
+            v-for="(option, optionIndex) in options" 
+            :key="option"
+        >
+            <button 
+                type="button" 
+                class="option-btn" 
+                @click="setSelected(optionIndex)" 
+                tabindex="0"
+            >
                 {{option}}
             </button>
         </li>
@@ -17,7 +30,7 @@ export default class Options extends Vue {
     @Prop() toggleOptions!: boolean;
     @Prop() selectedOption!: number;
     private optionsElement: HTMLElement | undefined = undefined;
-    private items: HTMLCollection | undefined = undefined;
+    private items: HTMLCollection| null = null;
     private numberOfOptions = 0;
     private chosenOption = 0;
 
@@ -25,12 +38,13 @@ export default class Options extends Vue {
         this.$nextTick(() => {
             this.chosenOption = this.selectedOption;
             this.optionsElement = this.$refs.options as HTMLElement;
-            this.items= this.optionsElement.children;
+            this.items = this.optionsElement.children;
             this.numberOfOptions = this.items.length - 1;
             (this.items[this.chosenOption].firstChild as HTMLButtonElement).focus();
+            
             window.addEventListener("keydown", this.keyboardNavigation);
+    
         });
-        
     }
 
     private keyboardNavigation(e: KeyboardEvent) {
@@ -38,22 +52,26 @@ export default class Options extends Vue {
             case "ArrowUp":
                 if(this.chosenOption > 0) {
                     this.chosenOption -= 1;
+                    // @ts-ignore
                     (this.items[this.chosenOption].firstChild as HTMLButtonElement).focus();
                     break;
 
                 } 
                 this.chosenOption = this.numberOfOptions;
+                 // @ts-ignore
                 (this.items[this.chosenOption].firstChild as HTMLButtonElement).focus();
                 break;
 
             case "ArrowDown":
                 if(this.chosenOption < this.numberOfOptions) {
                     this.chosenOption += 1;
+                     // @ts-ignore
                     (this.items[this.chosenOption].firstChild as HTMLButtonElement).focus();
                     break;
 
                 } 
                 this.chosenOption = 0;
+                 // @ts-ignore
                 (this.items[this.chosenOption].firstChild as HTMLButtonElement).focus();
                 break;
 
@@ -67,20 +85,17 @@ export default class Options extends Vue {
         e.preventDefault();
     }
 
-    private handleClickOutside(e: Event) {
-        console.log(e.target);
-    }
-
     private destroyed() {
         window.removeEventListener("keydown", this.keyboardNavigation);
     }
 
     private setSelected(option: number) {
-        this.$emit('option', option);
+        this.$emit('selected', option);
     }
 
     private onClickOutside() {
         this.$emit('close');
     }
+
 }
 </script>

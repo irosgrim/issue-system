@@ -25,14 +25,39 @@
                 </div>
             </div>
             <div class="content">
-                <h1 style="text-align: left; margin-left: 1rem;">
-                    Issues
-                </h1>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-left: 1rem;">
+                    <h1 style="text-align: left;">
+                        Issues
+                    </h1>
+                    <div style="display:flex; justify-content: space-between; background-color: #ffffff; padding: 1rem; border-radius: 5px; min-width: 160px;">
+                        <div style="flex-shrink: 0; margin-right: 1.5rem;">Filter by</div>
+                        <Dropdown 
+                        :options="filterBy" 
+                        :toggleOptions="showFilterOptions"
+                        :selectedOption="selectedFilter"
+                        @selected="setFilter"
+                        @close="toggleFilterOptions"
+                    >
+                        <div class="footer-btn-wrapper">
+                            <button 
+                                type="button" 
+                                class="select-btn filter-btn"
+                                @click="toggleFilterOptions"
+                                >
+                                    <span class="select-btn-text">
+                                        {{filterBy[selectedFilter]}}
+                                    </span>
+                            </button>
+                        </div>
+                    </Dropdown>
+                    </div>
+                </div>
                 <Issue 
                     style="margin-bottom: 1rem" 
                     v-for="issue in testIssues" 
                     :key="issue.id" 
                     :issue="issue"
+                    :options="options"
                 />
             </div>
         </div>
@@ -42,13 +67,58 @@
 <script lang="ts">
 import {Vue, Component} from 'vue-property-decorator';
 import Issue from '@/components/Issue.vue';
+import Dropdown from '@/components/Dropdown.vue';
 
 @Component({
     components: {
-        Issue
+        Issue,
+        Dropdown
     }
 })
 export default class Admin extends Vue{
+    private showFilterOptions = false;
+    private selectedFilter = 0;
+
+    private filterBy = [
+        "STATUS",
+        "PRIORITY",
+        "CATEGORY",
+        "DATE"
+    ]
+
+    private testPriorities = [
+        "LOW",
+        "MEDIUM",
+        "HIGH",
+        "CRITICAL"
+    ];
+
+    private testStatus = [
+        "PENDING",
+        "IN PROGRESS",
+        "STUCK",
+        "UNSOLVED",
+        "CLOSED"
+    ];
+
+    private supportUsers = [
+        { name: "Takashi Ryushin", email: "ryu@sky.jp" },
+        { name: "Johnny Bravo", email: "johnny@bravo.co.uk" },
+        { name: "Alice Doe", email: "alice.doe@mail.com" },
+    ];
+
+    private categories = [
+        "UNCATEGORISED", 
+        "SITE", 
+        "TICKETS"
+    ];
+
+    private options = {
+        priority: this.testPriorities,
+        status: this.testStatus,
+        categories: this.categories,
+        supportUsers: this.supportUsers.map(user => user.name)
+    };
 
     private testIssues = [
         {
@@ -103,6 +173,15 @@ export default class Admin extends Vue{
             note: null
         }
     ]
+
+    private setFilter(value: number) {
+        this.selectedFilter = value;
+        this.showFilterOptions = false;
+    }
+
+    private toggleFilterOptions() {
+        this.showFilterOptions = !this.showFilterOptions;
+    }
     
 }
 </script>
