@@ -1,7 +1,7 @@
 <template>
     <div class="admin-wrapper">
         <div class="admin">
-            <div id="nav">
+            <div id="nav" style="margin-bottom: 1rem">
                 <router-link to="/">reporter</router-link> |
                 <router-link to="/admin">admin</router-link>
             </div>

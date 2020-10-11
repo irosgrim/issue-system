@@ -14,3 +14,19 @@ export function randomColor() {
     }
     return color;
 }
+
+export function copyToClipboard(text: string){
+    if (navigator.clipboard) {
+        return navigator.clipboard.writeText(text);
+      } else {
+        const input = document.createElement("input");
+        input.style.display = 'none';
+        document.body.appendChild(input);
+        input.value = text;
+        input.focus();
+        input.select();
+        document.execCommand('copy');
+        input.remove();
+        return Promise.resolve();
+      }
+}

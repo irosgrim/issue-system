@@ -82,16 +82,17 @@
                                 {{issue.reporter.name | toInitials}}
                             </span>
                         </div>
-                        <div>
-                            <h6 class="footer-section-label">
-                                Reported by
-                            </h6>
-                            <div 
+                        <div class="reported-by">
+                            <span class="tooltip" v-if="showTooltip">Copied</span>
+                            <button
+                                type="button"
                                 class="email-wrapper"
                                 :title="issue.reporter.email"
+                                @click="copyToClipboard(issue.reporter.email)"
                             >
+                                <h6 class="footer-section-label"> Reported by </h6>
                                 {{ issue.reporter.email }}
-                            </div>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -141,28 +142,28 @@
             </div>
             <div class="footer-sections">
                 <div class="footer-section">
-                <Dropdown 
-                    :options="options.supportUsers" 
-                    :toggleOptions="showAssignedToOptions"
-                    :selectedOption="selectedAssignedToOption"
-                    @selected="setAssignedTo"
-                    @close="onToggleAssignedToOptions"
-                >
-                    <button 
-                        type="button" 
-                        class="select-btn assign-btn"
-                        @click="onToggleAssignedToOptions"
+                    <Dropdown 
+                        :options="options.supportUsers" 
+                        :toggleOptions="showAssignedToOptions"
+                        :selectedOption="selectedAssignedToOption"
+                        @selected="setAssignedTo"
+                        @close="onToggleAssignedToOptions"
                     >
-                        <h6 class="footer-section-label">Assigned to</h6>
-                        <span class="select-btn-text">
-                            {{options.supportUsers[selectedAssignedToOption]}}
-                        </span>
-                    </button>
-                </Dropdown>
-            </div>
-            <button type="button" class="share-btn">
-                <img src="@/assets/icons/share-black.svg" alt="share link to issue">
-            </button>
+                        <button 
+                            type="button" 
+                            class="select-btn assign-btn"
+                            @click="onToggleAssignedToOptions"
+                        >
+                            <h6 class="footer-section-label">Assigned to</h6>
+                            <span class="select-btn-text">
+                                {{options.supportUsers[selectedAssignedToOption]}}
+                            </span>
+                        </button>
+                    </Dropdown>
+                </div>
+                <!-- <button type="button" class="share-btn">
+                    <img src="@/assets/icons/share-black.svg" alt="share link to issue">
+                </button> -->
             </div>
         </div>
     </div>
@@ -172,7 +173,7 @@
 import { Vue, Component, Prop } from 'vue-property-decorator';
 import Dropdown from '@/components/Dropdown.vue';
 import { IssueOptions, IssueType } from '../../src/types/types';
-import { randomColor } from '../helpers/text';
+import { copyToClipboard, randomColor } from '../helpers/text';
 
 @Component({
     components: {
@@ -193,6 +194,8 @@ export default class Issue extends Vue {
     private selectedCategoryOption = 0;
     private selectedAssignedToOption = 0;
     private selectedPriorityOption = 0;
+
+    private showTooltip = false;
 
     private mounted() {
         this.selectedStatusOption = this.options.status.indexOf(this.issue.status);
@@ -242,6 +245,12 @@ export default class Issue extends Vue {
 
     private get randomColor() {
         return randomColor();
+    }
+
+    private copyToClipboard(text: string) {
+        this.showTooltip = true;
+        copyToClipboard(text);
+        setTimeout(() => this.showTooltip = false, 1500)
     }
 
 }

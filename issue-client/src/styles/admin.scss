@@ -121,10 +121,9 @@ $lighter: #707070;
 .issue-footer {
     border-top: 1px solid #e9e9e9;
     background-color: #f8f8f8;
-    padding: 10px;
+    padding: 0.5rem;
     text-align: left;
     border-radius: 0 0 5px 5px;
-    min-height: 60px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -231,6 +230,8 @@ $lighter: #707070;
     padding-right: 1.5rem;
     &:last-child {
         border-right: none;
+        padding-right: 0;
+
     }
 }
 
@@ -263,7 +264,9 @@ $lighter: #707070;
 
 .footer-section-label {
     margin: 0;
+    margin-bottom: 0.3rem;
     color: #707070;
+    font-size: 0.7rem;
 }
 
 .color {
@@ -411,6 +414,40 @@ a {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    border: none;
+    outline: none;
+    background-color: transparent;
+    text-align: left;
+    padding: 0;
+    cursor: pointer;
+}
+
+.reported-by {
+    position: relative;
+    .tooltip {
+        font-size: 0.8rem;
+        font-weight: bold;
+        background-color: #8a8a8a;
+        color: #ffffff;
+        text-align: center;
+        border-radius: 4px;
+        padding: 5px 0.5rem;
+        position: absolute;
+        z-index: 3;
+        top: -40px;
+        transition: opacity 0.3s;
+        &::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: #8a8a8a transparent transparent transparent;
+        }
+    }
+    
 }
 
 .no-issues {
