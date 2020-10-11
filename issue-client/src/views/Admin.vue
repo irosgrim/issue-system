@@ -6,52 +6,56 @@
                 <router-link to="/admin">admin</router-link>
             </div>
             <div class="header">
-                <div class="logo">
-                    
-                </div>
-                <div class="search-wrapper">
-                    <div class="search-icon">
-                        <img src="@/assets/icons/search-black.svg" alt="search icon">
+               <div class="search-section">
+                    <div class="logo">
+                        
                     </div>
-                    <input type="text" class="search">
-                </div>
-                <div class="header-menu-wrapper">
-                    <button type="button" class="header-button">
-                        <img src="@/assets/icons/notifications-black.svg" alt="notifications">
-                    </button>
-                    <button class="header-button">
-                        <img src="@/assets/icons/settings-black.svg" alt="settings">
-                    </button>
-                </div>
+                    <div class="search-wrapper">
+                        <div class="search-icon">
+                            <img src="@/assets/icons/search-black.svg" alt="search icon">
+                        </div>
+                        <input type="text" class="search">
+                        <div style="display:flex; justify-content: flex-start; align-items: flex-start; margin-top: 1rem;">
+                            <div style="flex-shrink: 0; margin-right: 1.5rem;">Filter by</div>
+                            <div>
+                                <Dropdown
+                                    :options="filterBy" 
+                                    :toggleOptions="showFilterOptions"
+                                    :selectedOption="selectedFilter"
+                                    @selected="setFilter"
+                                    @close="toggleFilterOptions"
+                                >
+                                    <div class="footer-btn-wrapper">
+                                        <button 
+                                            type="button" 
+                                            class="select-btn filter-btn"
+                                            @click="toggleFilterOptions"
+                                            >
+                                                <span class="select-btn-text">
+                                                    {{filterBy[selectedFilter]}}
+                                                </span>
+                                        </button>
+                                    </div>
+                                </Dropdown>
+                            </div>
+                            <div class="filter-type-wrapper" style="max-width: 500px; overflow-x: scroll; height: 40px; font-size: 0.8rem">
+                                <ul class="filter-type-list">
+                                    <li v-for="(filterType, filterTypeIndex) in filterByOptions[selectedFilter]" :key="filterTypeIndex" style="flex-shrink: 0;">{{filterType}}</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="header-menu-wrapper">
+                        <button type="button" class="header-button">
+                            <img src="@/assets/icons/notifications-black.svg" alt="notifications">
+                        </button>
+                        <button class="header-button">
+                            <img src="@/assets/icons/settings-black.svg" alt="settings">
+                        </button>
+                    </div>
+               </div>
             </div>
             <div class="content">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-left: 1rem;">
-                    <h1 style="text-align: left;">
-                        Issues
-                    </h1>
-                    <div style="display:flex; justify-content: space-between; background-color: #ffffff; padding: 1rem; border-radius: 5px; min-width: 160px;">
-                        <div style="flex-shrink: 0; margin-right: 1.5rem;">Filter by</div>
-                        <Dropdown 
-                        :options="filterBy" 
-                        :toggleOptions="showFilterOptions"
-                        :selectedOption="selectedFilter"
-                        @selected="setFilter"
-                        @close="toggleFilterOptions"
-                    >
-                        <div class="footer-btn-wrapper">
-                            <button 
-                                type="button" 
-                                class="select-btn filter-btn"
-                                @click="toggleFilterOptions"
-                                >
-                                    <span class="select-btn-text">
-                                        {{filterBy[selectedFilter]}}
-                                    </span>
-                            </button>
-                        </div>
-                    </Dropdown>
-                    </div>
-                </div>
                 <Issue 
                     style="margin-bottom: 1rem" 
                     v-for="issue in testIssues" 
@@ -79,12 +83,18 @@ export default class Admin extends Vue{
     private showFilterOptions = false;
     private selectedFilter = 0;
 
+   
     private filterBy = [
         "STATUS",
         "PRIORITY",
         "CATEGORY",
         "DATE"
-    ]
+    ];
+
+    private filterByDate = [
+        "Most recent",
+        "Oldest"
+    ];
 
     private testPriorities = [
         "LOW",
@@ -113,11 +123,19 @@ export default class Admin extends Vue{
         "TICKETS"
     ];
 
+     private filterByOptions = {
+        0: this.testStatus,
+        1: this.testPriorities,
+        2: this.categories,
+        3: this.filterByDate
+    }
+
+
     private options = {
         priority: this.testPriorities,
         status: this.testStatus,
         categories: this.categories,
-        supportUsers: this.supportUsers.map(user => user.name)
+        supportUsers: ['UNASSIGNED', ...this.supportUsers.map(user => user.name)]
     };
 
     private testIssues = [
@@ -182,6 +200,7 @@ export default class Admin extends Vue{
     private toggleFilterOptions() {
         this.showFilterOptions = !this.showFilterOptions;
     }
+
     
 }
 </script>

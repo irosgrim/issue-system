@@ -87,7 +87,6 @@
                     </div>
                 </div>
                 <div class="footer-section">
-                    <h6 class="footer-section-label">Category</h6>
                     <Dropdown 
                         :options="options.categories" 
                         :toggleOptions="showCategoryOptions" 
@@ -99,7 +98,8 @@
                             type="button" 
                             class="select-btn category-btn"
                              @click="onToggleCategoryOptions"
-                            >
+                        >
+                                <h6 class="footer-section-label">Category</h6>
                                 <span class="select-btn-text">
                                     {{options.categories[selectedCategoryOption]}}
                                 </span>
@@ -107,7 +107,6 @@
                     </Dropdown>
                 </div>
                 <div class="footer-section">
-                    <h6 class="footer-section-label">Priority</h6>
                     <Dropdown 
                         :options="options.priority" 
                         :toggleOptions="showPriorityOptions"
@@ -122,6 +121,7 @@
                                 class="select-btn priority-btn"
                                 @click="onTogglePriorityOptions"
                                 >
+                                    <h6 class="footer-section-label">Priority</h6>
                                     <span class="select-btn-text">
                                         {{options.priority[selectedPriorityOption]}}
                                     </span>
@@ -132,7 +132,6 @@
             </div>
             <div class="footer-sections">
                 <div class="footer-section">
-                <h6 class="footer-section-label">Assigned to</h6>
                 <Dropdown 
                     :options="options.supportUsers" 
                     :toggleOptions="showAssignedToOptions"
@@ -145,10 +144,11 @@
                         class="select-btn assign-btn"
                         @click="onToggleAssignedToOptions"
                     >
-                            <span class="select-btn-text">
-                                {{options.supportUsers[selectedAssignedToOption]}}
-                            </span>
-                        </button>
+                        <h6 class="footer-section-label">Assigned to</h6>
+                        <span class="select-btn-text">
+                            {{options.supportUsers[selectedAssignedToOption]}}
+                        </span>
+                    </button>
                 </Dropdown>
             </div>
             <button type="button" class="share-btn">

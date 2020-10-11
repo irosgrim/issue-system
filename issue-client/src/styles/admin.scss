@@ -15,10 +15,30 @@ $lighter: #707070;
 .header {
     background-color: #ffffff;
     padding: 1rem;
+    padding-bottom: 0;
+    border-radius: 5px;
+}
+
+.search-section {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    border-radius: 5px;
+    align-items: flex-start;
+}
+.filter-type-list{
+    display: flex;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    li {
+        border-right: 1px solid #e5e5e5;
+        padding: 0 1rem;
+        &:first-child{
+            border-left: 1px solid #e5e5e5;
+        }
+        &:last-child{
+            border-right: none;
+        }
+    }
 }
 
 .logo {
@@ -286,7 +306,7 @@ a {
     width: 10px;
     border-radius: 50%;
     left: -1rem;
-    top: 0.38rem;
+    top: 1.24rem;
  }
 
 
