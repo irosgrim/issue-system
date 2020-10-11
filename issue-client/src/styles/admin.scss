@@ -323,6 +323,7 @@ a {
 
 .options {
     position: absolute;
+    z-index: 2;
     text-align: left;
     list-style-type: none;
     margin: 0;
@@ -424,6 +425,7 @@ a {
 
 .reported-by {
     position: relative;
+    z-index: 1;
     .tooltip {
         font-size: 0.8rem;
         font-weight: bold;
@@ -433,7 +435,7 @@ a {
         border-radius: 4px;
         padding: 5px 0.5rem;
         position: absolute;
-        z-index: 3;
+        // z-index: 1;
         top: -40px;
         transition: opacity 0.3s;
         &::after {
