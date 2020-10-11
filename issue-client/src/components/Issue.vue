@@ -37,7 +37,7 @@
                 </div>
             </div>
             <div class="info-col">
-                <div class="issue-date">{{getDate(issue.reportedDate)}}</div>
+                <div class="issue-date">{{issue.reportedDate | getDateAndTimeAsString}}</div>
                 <div class="d-flex">
                     <div class="info-label">OS</div> 
                         <div class="info">{{issue.operatingSystem}}</div>
@@ -71,18 +71,27 @@
             <div class="footer-sections">
                 <div class="footer-section">
                     <div class="reporter">
-                        <div class="avatar">
-                            <span class="avatar-text">TK</span>
+                        <div 
+                            class="avatar" 
+                            :style="{backgroundColor: randomColor}"
+                        >
+                            <span 
+                                class="avatar-text" 
+                                :title="issue.reporter.name"
+                            >
+                                {{issue.reporter.name | toInitials}}
+                            </span>
                         </div>
                         <div>
                             <h6 class="footer-section-label">
                                 Reported by
                             </h6>
-                            <span 
-                                class="footer-section-value"
+                            <div 
+                                class="email-wrapper"
+                                :title="issue.reporter.email"
                             >
-                                {{ issue.reporterEmail }}
-                            </span>
+                                {{ issue.reporter.email }}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -99,11 +108,11 @@
                             class="select-btn category-btn"
                              @click="onToggleCategoryOptions"
                         >
-                                <h6 class="footer-section-label">Category</h6>
-                                <span class="select-btn-text">
-                                    {{options.categories[selectedCategoryOption]}}
-                                </span>
-                            </button>
+                            <h6 class="footer-section-label">Category</h6>
+                            <span class="select-btn-text">
+                                {{options.categories[selectedCategoryOption]}}
+                            </span>
+                        </button>
                     </Dropdown>
                 </div>
                 <div class="footer-section">
@@ -163,6 +172,7 @@
 import { Vue, Component, Prop } from 'vue-property-decorator';
 import Dropdown from '@/components/Dropdown.vue';
 import { IssueOptions, IssueType } from '../../src/types/types';
+import { randomColor } from '../helpers/text';
 
 @Component({
     components: {
@@ -230,16 +240,9 @@ export default class Issue extends Vue {
         return {backgroundColor: colors[status]};
     }
 
-    private getDate(date: Date): string {
-    if(date) {
-        const d = new Date(date);
-        const correctMonth = d.getMonth() + 1;
-        const day = d.getDate() < 10 ? '0' + d.getDate() : d.getDate();
-        const month = correctMonth < 10 ? '0' + correctMonth : correctMonth;
-        return d.getFullYear() + '-' + month + '-' + day;
+    private get randomColor() {
+        return randomColor();
     }
-    return '';
-}
 
 }
 

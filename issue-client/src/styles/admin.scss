@@ -201,10 +201,14 @@ $lighter: #707070;
 }
 
 .info-col {
-    text-align: left;
-    padding: 0 1rem;
-    min-width: 25%;
-    font-size: 0.9rem;
+    display: none;
+    @media(min-width: 836px) {
+        display: block;
+        text-align: left;
+        padding: 0 1rem;
+        min-width: 25%;
+        font-size: 0.9rem;
+    }
 }
 
 .info-label {
@@ -241,7 +245,6 @@ $lighter: #707070;
 
 .avatar {
     margin-right: 0.5rem;
-    background-color: #ffc808;
     height: 31px;
     width: 31px;
     border-radius: 50%;
@@ -386,4 +389,30 @@ a {
 
 .filter-btn {
     min-width: 120px;
+}
+
+.link-button {
+    border: none;
+    outline: none;
+    background-color: transparent;
+    cursor: pointer;
+    &:focus {
+        border-bottom: 2px solid #42b983;
+    }
+}
+
+.active {
+    color: #000000;
+    border-bottom: 2px solid #42b983;
+}
+
+.email-wrapper {
+    width: 120px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.no-issues {
+    margin: 10% auto;
 }

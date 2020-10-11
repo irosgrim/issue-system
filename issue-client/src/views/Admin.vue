@@ -40,7 +40,21 @@
                             </div>
                             <div class="filter-type-wrapper" style="max-width: 500px; overflow-x: scroll; height: 40px; font-size: 0.8rem">
                                 <ul class="filter-type-list">
-                                    <li v-for="(filterType, filterTypeIndex) in filterByOptions[selectedFilter]" :key="filterTypeIndex" style="flex-shrink: 0;">{{filterType}}</li>
+                                    <li 
+                                        v-for="(filterType, filterTypeIndex) in filterByOptions[selectedFilter]" 
+                                        :key="filterTypeIndex" 
+                                        style="flex-shrink: 0;"
+                                    >
+                                        <button 
+                                            type="button" 
+                                            tabindex="0" 
+                                            class="link-button"
+                                            :class="{active: filterType === selectedFilterChild}"
+                                            @click="selectedFilterChild = filterType"
+                                        >
+                                            {{filterType}}
+                                        </button>
+                                    </li>
                                 </ul>
                             </div>
                         </div>
@@ -55,7 +69,8 @@
                     </div>
                </div>
             </div>
-            <div class="content">
+            <div v-if="!testIssues.length" class="no-issues">No issues!</div>
+            <div class="content" v-else>
                 <Issue 
                     style="margin-bottom: 1rem" 
                     v-for="issue in testIssues" 
@@ -81,7 +96,8 @@ import Dropdown from '@/components/Dropdown.vue';
 })
 export default class Admin extends Vue{
     private showFilterOptions = false;
-    private selectedFilter = 0;
+    private selectedFilter = 3;
+    private selectedFilterChild = ''
 
    
     private filterBy = [
@@ -145,14 +161,17 @@ export default class Admin extends Vue{
             issueDescription: 'We might have an issue. Something is wrong on the website',
             issueLocation: 'http://www.the.url.to-issue.com',
             issueScreenshot: 'https://url-to-the-image.com/image.png',
-            reporterEmail: 'kitsune@earth.jp',
+            reporter: {
+                name: 'Akito Tekashi',
+                email: 'kitsune@earth.jp'
+            },
             priority: 'HIGH',
             operatingSystem: 'Windows 98',
             browser: 'Internet Explorer 6',
             device: 'PC',
             status: 'PENDING',
             assignedTo: null,
-            reportedDate: new Date('2020-04-14'),
+            reportedDate: new Date('2020-04-14 11:32:54'),
             updatedDate: null,
             note: null
         },
@@ -162,14 +181,17 @@ export default class Admin extends Vue{
             issueDescription: 'We might have more than an issue',
             issueLocation: 'http://www.the.url.to-issue.com',
             issueScreenshot: 'https://url-to-the-image.com/image.png',
-            reporterEmail: 'ryushin@sky.jp',
+            reporter: {
+                    name: 'Ryu Sato',
+                    email: 'ryushin@sky.jp'
+            },
             priority: 'CRITICAL',
             operatingSystem: 'MacOsX',
             browser: 'Chrome 42',
             device: 'Macbook Pro',
             status: 'CLOSED',
             assignedTo: null,
-            reportedDate: new Date('2020-09-24'),
+            reportedDate: new Date('2020-10-04 16:13:42'),
             updatedDate: null,
             note: null
         },
@@ -179,14 +201,17 @@ export default class Admin extends Vue{
             issueDescription: 'We might have an issue',
             issueLocation: 'http://www.the.url.to-issue.com',
             issueScreenshot: 'https://url-to-the-image.com/image.png',
-            reporterEmail: 'ryushin@sky.jp',
+            reporter: {
+                    name: 'Chisato Yamamoto',
+                    email: 'chisato-hana@water.jp'
+            },
             priority: 'LOW',
             operatingSystem: 'MacOsX',
             browser: 'Chrome 42',
             device: 'Macbook Pro',
             status: 'PENDING',
             assignedTo: null,
-            reportedDate: new Date('2020-09-24'),
+            reportedDate: new Date('2020-10-11 03:59:45'),
             updatedDate: null,
             note: null
         }
