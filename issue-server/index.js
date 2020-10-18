@@ -2,6 +2,7 @@ require('dotenv').config()
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
+const compression = require('compression');
 const path = require('path');
 const { setupDb } = require('./db/dbHelpers');
 const { uploadIssueScreenshot }= require('./middlewares/upload');
@@ -16,13 +17,14 @@ app.listen(port, () => console.log('Issue server running on port ' + port));
 
 setupDb();
 
+app.use(compression());
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(baseUrl, express.static(path.join(__dirname, 'www')));
 
-app.get(`${baseUrl}/issues`, checkAuthorisation(), route.getIssues());
-app.get(`${baseUrl}/get-all-users`, checkAuthorisation(), route.getAllUsers());
-app.get('*', (req, res) => res.send('there is nothing to see here!'))
+app.get(`${baseUrl}/issues`, route.getIssues());
+app.get(`${baseUrl}/get-all-support-users`, route.getAllSupportUsers());
+// app.get('*', (req, res) => res.send('there is nothing to see here!'))
 
 app.post(`${baseUrl}/report-issue`, uploadIssueScreenshot, route.reportIssue());
 app.post(`${baseUrl}/assign-issue`, checkAuthorisation(), route.assignIssueTo());

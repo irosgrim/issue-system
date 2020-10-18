@@ -61,6 +61,8 @@
             <input type="text" class="mb-3 input-field" name="browser" id="browser" ref="browser" required>
             <label for="device" class="lbl">Device</label>
             <input type="text" class="mb-3 input-field" name="device" id="device" ref="device" required>
+            <label for="reporterName" class="lbl">Your name</label>
+            <input type="text" class="mb-3 input-field" name="name" id="name" ref="name" required>
             <label for="reporterEmail" class="lbl">Your email</label>
             <input type="email" class="mb-3 input-field" name="email" id="email" ref="email" required>
 

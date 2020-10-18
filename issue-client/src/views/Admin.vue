@@ -1,6 +1,7 @@
 <template>
     <div class="admin-wrapper">
-        <div class="admin">
+        <div v-if="contentIsLoading">Loading page...</div>
+        <div class="admin" v-else>
             <div id="nav" style="margin-bottom: 1rem">
                 <router-link to="/">reporter</router-link> |
                 <router-link to="/admin">admin</router-link>
@@ -69,11 +70,11 @@
                     </div>
                </div>
             </div>
-            <div v-if="!testIssues.length" class="no-issues">No issues!</div>
+            <div v-if="!allIssues.length" class="no-issues">No issues!</div>
             <div class="content" v-else>
                 <Issue 
                     style="margin-bottom: 1rem" 
-                    v-for="issue in testIssues" 
+                    v-for="issue in allIssues" 
                     :key="issue.id" 
                     :issue="issue"
                     :options="options"
@@ -85,19 +86,46 @@
 
 <script lang="ts">
 import {Vue, Component} from 'vue-property-decorator';
-import Issue from '@/components/Issue.vue';
-import Dropdown from '@/components/Dropdown.vue';
+import { SupportUser } from '../types/types';
+// import Issue from '@/components/Issue.vue';
+// import Dropdown from '@/components/Dropdown.vue';
+
+interface IssueObj {
+    id: number;
+    issueSubject: string;
+    issueDescription: string;
+    issueLocation: string;
+    issueScreenshot: string;
+    reporter: {
+        name: string;
+        email: string;
+    };
+    priority: string;
+    operatingSystem: string;
+    browser: string;
+    device: string;
+    status: string;
+    assignedTo: string | null;
+    reportedDate: Date;
+    updatedDate: Date;
+    note: string | null;
+}
 
 @Component({
     components: {
-        Issue,
-        Dropdown
+        Issue: () => import(/* webpackChunkName: "issue" */ '@/components/Issue.vue'),
+        Dropdown: () => import(/* webpackChunkName: "dropDown" */ '@/components/Dropdown.vue'),
     }
 })
 export default class Admin extends Vue{
     private showFilterOptions = false;
     private selectedFilter = 3;
-    private selectedFilterChild = ''
+    private selectedFilterChild = '';
+
+    private contentIsLoading = true;
+
+    private allIssues: IssueObj[] = [];
+    private allSupportUsers: SupportUser[] = [];
 
    
     private filterBy = [
@@ -147,12 +175,14 @@ export default class Admin extends Vue{
     }
 
 
-    private options = {
-        priority: this.testPriorities,
-        status: this.testStatus,
-        categories: this.categories,
-        supportUsers: ['UNASSIGNED', ...this.supportUsers.map(user => user.name)]
-    };
+    private get options(){
+       return {
+            priority: this.testPriorities,
+            status: this.testStatus,
+            categories: this.categories,
+            supportUsers: ['UNASSIGNED', ...this.allSupportUsers.map(user => user.name)]
+       }
+    }
 
     private testIssues = [
         {
@@ -215,7 +245,17 @@ export default class Admin extends Vue{
             updatedDate: null,
             note: null
         }
-    ]
+    ];
+
+    private async created() {
+        this.contentIsLoading = true;
+        const allIssuesResponse = await fetch('issues', {method: 'GET'});
+        const allSupportUsersResponse = await fetch('get-all-support-users', {method: 'GET'});
+        this.allIssues = await allIssuesResponse.json();
+        this.allSupportUsers = await allSupportUsersResponse.json();
+        this.contentIsLoading = false;
+    }
+
 
     private setFilter(value: number) {
         this.selectedFilter = value;

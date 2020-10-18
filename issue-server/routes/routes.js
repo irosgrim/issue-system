@@ -30,7 +30,7 @@ class Route {
     getIssues() {
         return (req, res) => {
             const issueStatus = req.query.status;
-            const authorisedUser = req.authorisedUser;
+            const authorisedUser = true;//req.authorisedUser;
             if(authorisedUser) {
                 if(issueStatus) {
                     query(getAllIssuesWithStatus, [issueStatus], (error, results) => {
@@ -46,7 +46,29 @@ class Route {
                             console.log(error);
                             return;
                         }
-                        res.send(results.rows)
+                        const allIssuesMapped = results.rows.map(issue => {
+                            return {
+                                id: issue.id,
+                                issueSubject: issue.issue_subject,
+                                issueDescription: issue.issue_description,
+                                issueLocation: issue.issue_location,
+                                issueScreenshot: issue.issue_screenshot &&'/screenshots/' + issue.issue_screenshot,
+                                reporter: {
+                                    name: issue.reporter_name,
+                                    email: issue.reporter_email,
+                                },
+                                priority: issue.priority,
+                                operatingSystem: issue.operating_system,
+                                browser: issue.browser,
+                                device: issue.device,
+                                status: issue.status,
+                                assignedTo: issue.assigned_to,
+                                reportedDate: issue.reported_date,
+                                updatedDate: issue.updated_date,
+                                note: issue.note
+                            }
+                        })
+                        res.send(allIssuesMapped);
                     })
                 }
             } else {
@@ -56,17 +78,39 @@ class Route {
         }
     }
 
-    getAllUsers() {
+    getAllSupportUsers() {
         return (req, res) => {
-            res.send('list of all the users');
+            const testUsers = [
+                {
+                    id: 0,
+                    name: 'Takashi Ryushin',
+                    username: 'Ryu',
+                    email: 'ryu@support.com'
+                },
+                {
+                    id: 1,
+                    name: 'Alice Doe',
+                    username: 'alice42',
+                    email: 'alice@support.com'
+                },
+                {
+                    id: 2,
+                    name: 'Johnny Bravo',
+                    username: 'john_b',
+                    email: 'johnny_bravo@support.com'
+                }
+            ]
+            res.send(testUsers);
         }
     }
 
     reportIssue() {
         return async (req, res) => {
-            const { 
+            const {
+                issueSubject='No subject', 
                 issueDescription, 
                 issueLocation, 
+                name='No Name',
                 email,
                 priority='LOW',
                 operatingSystem,
@@ -75,8 +119,10 @@ class Route {
             } = req.body;
 
             const expectedIssueDetails = {
+                ["issue subject"]: issueSubject, 
                 ["issue description"]: issueDescription, 
                 ["issue location"]: issueLocation, 
+                ["reporter's name"]: name, 
                 ["reporter's email"]: email,
                 ["priority"]: priority,
                 ["operating system"]: operatingSystem,
@@ -93,7 +139,7 @@ class Route {
             }
 
             query(insertNewIssue, 
-                [issueDescription, issueLocation, issueScreenshot, email, priority, operatingSystem, browser, device], 
+                [issueSubject, issueDescription, issueLocation, issueScreenshot, name, email, priority, operatingSystem, browser, device], 
                 (error, results) => {
                     if(error) {
                         console.log(error);

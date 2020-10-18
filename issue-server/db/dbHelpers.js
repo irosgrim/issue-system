@@ -1,13 +1,15 @@
 const { table } = require('console');
 const { Pool } = require('pg')
 const util = require('util');
-const { createIssueStatusTable } = require('./dbSetupQueries');
 const dbSetupQueries = require('./dbSetupQueries');
-const { 
+const {
+    createCategoryTable,
     createIssuePriorityTable, 
+    createIssueStatusTable,
     createUsersTable, 
     createIssuesTable, 
     getAllTheTables, 
+    insertCategoryDefaultValues,
     insertIssuePriorityDefaultValues, 
     insertIssueStatusDefaultValues} = dbSetupQueries;
 
@@ -20,7 +22,7 @@ const pool = new Pool({
 });
 
 const setupDb = async () => {
-    const expectedTables = ['issue_priority', 'issue_status', 'users', 'issues'];
+    const expectedTables = ['issue_category', 'issue_priority', 'issue_status', 'users', 'issues'];
     const response = await pool.query(getAllTheTables);
     let tableNamesDictionary = {};
 
@@ -41,6 +43,15 @@ const setupDb = async () => {
 
 const createTables = async (tableName) => {
     switch(tableName) {
+        case 'issue_category':
+            try {
+                console.log('✓ created issue_category table ');
+                await pool.query(createCategoryTable, []);
+                await pool.query(insertCategoryDefaultValues, []);
+            } catch(err) {
+                console.log('❌ error creating issue_category table: ' + err)
+            }
+            break;
         case 'issue_priority':
             try {
                 console.log('✓ created issue_priority table ');

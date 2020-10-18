@@ -4,7 +4,7 @@
 
 ![alt text](../support-page.png)
 
-## Screenshot of the first version of the reporting page:
+### Screenshot of the first version of the reporting page:
 
 ![alt text](../reporter-page.png)
 
