@@ -5,7 +5,7 @@ export const testIssues = [
         issueSubject: 'I have an issue',
         issueDescription: 'We might have an issue. Something is wrong on the website',
         issueLocation: 'http://www.the.url.to-issue.com',
-        issueScreenshot: 'https://url-to-the-image.com/image.png',
+        issueScreenshot: 'https://s.car.info/image_files/360/bmw-isetta-front-side-onsdagstraff-farjenas-goteborg-2020-vecka-37-1-922235.jpg',
         reporter: {
             name: 'Akito Tekashi',
             email: 'kitsune@earth.jp'
@@ -25,7 +25,7 @@ export const testIssues = [
         issueSubject: 'The website is down',
         issueDescription: 'We might have more than an issue',
         issueLocation: 'http://www.the.url.to-issue.com',
-        issueScreenshot: 'https://url-to-the-image.com/image.png',
+        issueScreenshot: 'https://www.chevrolet.se/content/dam/chevrolet/eu/master/english/index/01-images/the-next-generation-corvette-l.jpg?imwidth=960',
         reporter: {
                 name: 'Ryu Sato',
                 email: 'ryushin@sky.jp'
@@ -45,7 +45,7 @@ export const testIssues = [
         issueSubject: 'Something is not working, i need help',
         issueDescription: 'We might have an issue',
         issueLocation: 'http://www.the.url.to-issue.com',
-        issueScreenshot: 'https://url-to-the-image.com/image.png',
+        issueScreenshot: 'https://source.unsplash.com/random/800x600',
         reporter: {
                 name: 'Chisato Yamamoto',
                 email: 'chisato-hana@water.jp'

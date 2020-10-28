@@ -12,7 +12,7 @@ const app = new Vue ({
             e.preventDefault();
             const theForm = this.$refs.theForm;
             const formData = new FormData(theForm);
-            const response = await fetch(`/report-issue`, {
+            const response = await fetch(`report-issue`, {
                 method: 'POST',
                 // mode: 'cors',
                 cache: 'no-cache',

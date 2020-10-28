@@ -25,9 +25,10 @@ setupDb();
 app.use(compression());
 app.use(cookieParser());
 app.use(bodyParser.json());
-console.log(baseUrl);
 app.use(`${baseUrl}/report`, express.static(path.join(__dirname, 'report')));
 app.use(`${baseUrl}/support`, express.static(path.join(__dirname, 'support')));
+app.use(`${baseUrl}/screenshots`, express.static(path.join(__dirname, 'screenshots')));
+
 
 // app.get(/.*/,(req,res)=>res.sendFile(path.resolve(__dirname, 'www/index.html')))
 

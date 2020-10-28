@@ -1,5 +1,19 @@
 <template>
     <div class="issue">
+        <div class="picture-modal" v-if="showScreenshot">
+            <div class="picture-modal-bg" @click="showScreenshot = false"></div>
+            <div class="modal-body">
+                <div class="modal-header">
+                    <button type="button" class="close-btn">
+                        <img src="@/assets/icons/close.svg" alt="close window" @click="showScreenshot = false">
+                    </button>
+                </div>
+                <div class="modal-content">
+                    <div class="loading">loading image...</div>
+                    <img :src="issue.issueScreenshot" alt="issue screenshot">
+                </div>
+            </div>
+        </div>
         <div class="row">
              <div class="position-relative">
                 <div class="status-col-id" :style="!isExpanded && {display: 'none'}">#{{issue.id}}</div>
@@ -77,15 +91,18 @@
                         <div class="info">{{issue.device}}</div>
                     </div>
                     <div class="link">
-                        <span>
-                            <a :href="issue.issueScreenshot">
-                                Screenshot
-                            </a>
+                        <span v-if="issue.issueScreenshot">
+                            <span class="text-link" @click="showScreenshot = true">
+                                    Screenshot
+                            </span>
+                            <img 
+                                src="@/assets/icons/link-black.svg" 
+                                alt="screenshot link icon"
+                            >
                         </span>
-                        <img 
-                            src="@/assets/icons/link-black.svg" 
-                            alt="screenshot link icon"
-                        >
+                        <span class="inactive" v-else>
+                            No screenshot
+                        </span>
                     </div>
                 </div>
             </div>
@@ -209,11 +226,11 @@ export default class Issue extends Vue {
     @Prop({default: true}) private isExpandedByDefault!: boolean;
 
     private expanded = this.isExpandedByDefault;
+    private showScreenshot = false;
     private set isExpanded(val: boolean) {
         this.expanded = val;
     }
     private get isExpanded() {
-        console.log(this.expanded);
         return this.expanded;
     }
 

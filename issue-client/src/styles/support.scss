@@ -22,6 +22,7 @@ body {
   
 
 .admin-wrapper {
+    position: relative;
     background-color: #edeff7;
     min-height: 100vh;
     padding-bottom: 5rem;
@@ -324,7 +325,7 @@ body {
     background-color: blue;
 }
 
-a {
+a, .text-link {
     color: #178550;
     text-decoration: underline;
     &:hover {
@@ -546,4 +547,69 @@ a {
 
 .issue-wrapper {
     margin-bottom: 1rem;
+}
+
+.inactive {
+    color: $lighter;
+}
+
+.picture-modal {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 2;
+}
+.picture-modal-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.25);
+}
+.modal-body {
+    position: relative;
+    display: inline-block;
+    margin-top: 1rem;
+    min-width: 320px;
+    max-width: 1200px;
+    width: auto;
+    background-color: #ffffff;
+    border-radius: 5px;
+    padding: 2rem;
+    z-index: 1;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: flex-end;
+}
+.close-btn {
+    height: 36px;
+    width: 36px;
+    margin-right: -1.5rem;
+    margin-top: -1.5rem;
+    background-color: transparent;
+    border: none;
+    img {
+        width: 100%;
+        height: 100%;
+    }
+}
+.modal-content {
+    position: relative;
+    .loading {
+        position: absolute;
+        top: 40%;
+        right: 35%;
+        z-index: 0;
+    }
+    img {
+        position: relative;
+        width: 100%;
+        height: auto;
+        z-index: 1;
+    }
 }

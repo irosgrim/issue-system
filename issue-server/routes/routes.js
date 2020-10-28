@@ -52,7 +52,7 @@ class Route {
                                 issueSubject: issue.issue_subject,
                                 issueDescription: issue.issue_description,
                                 issueLocation: issue.issue_location,
-                                issueScreenshot: issue.issue_screenshot && process.env.BASE_URL + '/support/screenshots/' + issue.issue_screenshot,
+                                issueScreenshot: issue.issue_screenshot && process.env.BASE_URL + '/screenshots/' + issue.issue_screenshot,
                                 reporter: {
                                     name: issue.reporter_name,
                                     email: issue.reporter_email,
@@ -107,8 +107,8 @@ class Route {
     reportIssue() {
         return async (req, res) => {
             const {
-                issueSubject='No subject', 
                 issueDescription, 
+                issueSubject='', 
                 issueLocation, 
                 name='No Name',
                 email,
@@ -119,7 +119,6 @@ class Route {
             } = req.body;
 
             const expectedIssueDetails = {
-                ["issue subject"]: issueSubject, 
                 ["issue description"]: issueDescription, 
                 ["issue location"]: issueLocation, 
                 ["reporter's name"]: name, 
@@ -137,9 +136,16 @@ class Route {
                 res.status(400).send({message: msg[0].toUpperCase() + msg.slice(1) + ' required'});
                 return;
             }
-
+            let createSubject = '';
+            if(issueSubject === '') {
+                if(issueDescription.length > 40) {
+                    createSubject = issueDescription.substring(0, 25) + '...';
+                } else {
+                    createSubject = issueDescription.substring(0, 20) + '...';
+                }
+            }
             query(insertNewIssue, 
-                [issueSubject, issueDescription, issueLocation, issueScreenshot, name, email, priority, operatingSystem, browser, device], 
+                [createSubject, issueDescription, issueLocation, issueScreenshot, name, email, priority, operatingSystem, browser, device], 
                 (error, results) => {
                     if(error) {
                         console.log(error);
