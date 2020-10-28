@@ -3,6 +3,7 @@ const express = require('express');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const compression = require('compression');
+// const history = require('connect-history-api-fallback');
 const path = require('path');
 const { setupDb } = require('./db/dbHelpers');
 const { uploadIssueScreenshot }= require('./middlewares/upload');
@@ -17,10 +18,16 @@ app.listen(port, () => console.log('Issue server running on port ' + port));
 
 setupDb();
 
+// app.use(history({
+//     disableDotRule: true,
+//     verbose: true
+//   }));
 app.use(compression());
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(baseUrl, express.static(path.join(__dirname, 'www')));
+
+// app.get(/.*/,(req,res)=>res.sendFile(path.resolve(__dirname, 'www/index.html')))
 
 app.get(`${baseUrl}/issues`, route.getIssues());
 app.get(`${baseUrl}/get-all-support-users`, route.getAllSupportUsers());

@@ -7,18 +7,18 @@ const routes: Array<RouteConfig> = [
   {
     path: '/',
     name: 'Home',
-    component: () => import(/* webpackChunkName: "issueReporting" */ '../views/Home.vue')
+    component: () => import(/* webpackChunkName: "issueReportingPage" */ '../views/Home.vue')
   },
   {
     path: '/admin',
     name: 'Admin',
-    component: () => import(/* webpackChunkName: "admin" */ '../views/Admin.vue')
+    component: () => import(/* webpackChunkName: "adminPage" */ '../views/Admin.vue')
   }
 ]
 
 const router = new VueRouter({
   mode: 'history',
-  base: process.env.BASE_URL,
+//   base: '/issue-tracker/',
   routes
 })
 
