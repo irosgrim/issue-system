@@ -1,4 +1,4 @@
 module.exports = {
-  publicPath: '/issue-tracker/',
-  outputDir: '../issue-server/www/'
+  publicPath: '/issue-tracker/support/',
+  outputDir: '../issue-server/support/'
 }

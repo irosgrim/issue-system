@@ -2,10 +2,6 @@
     <div class="admin-wrapper">
         <div v-if="contentIsLoading">Loading page...</div>
         <div class="admin" v-else>
-            <div id="nav" style="margin-bottom: 1rem">
-                <router-link to="/">reporter</router-link> |
-                <router-link to="/admin">admin</router-link>
-            </div>
             <div class="header">
                <div class="search-section">
                     <div class="logo">
@@ -16,8 +12,8 @@
                             <img src="@/assets/icons/search-black.svg" alt="search icon">
                         </div>
                         <input type="text" class="search">
-                        <div style="display:flex; justify-content: flex-start; align-items: flex-start; margin-top: 1rem;">
-                            <div style="flex-shrink: 0; margin-right: 1.5rem;">Filter by</div>
+                        <div class="filter-by">
+                            <div class="filter-by-label">Filter by</div>
                             <div>
                                 <Dropdown
                                     :options="filterBy" 
@@ -39,7 +35,7 @@
                                     </div>
                                 </Dropdown>
                             </div>
-                            <div class="filter-type-wrapper" style="max-width: 500px; overflow-x: scroll; height: 40px; font-size: 0.8rem">
+                            <div class="filter-type-wrapper">
                                 <ul class="filter-type-list">
                                     <li 
                                         v-for="(filterType, filterTypeIndex) in filterByOptions[selectedFilter]" 
@@ -67,18 +63,32 @@
                         <button class="header-button">
                             <img src="@/assets/icons/settings-black.svg" alt="settings">
                         </button>
+                         <div class="issue-list-menu">
+                            <button v-if="!expandAll" type="button" @click="expandAll = true" class="issue-list-ctrl-btn">
+                                expand
+                                <img src="@/assets/icons/expand.svg" alt="expand all issues">
+                            </button>
+                            <button v-else type="button" @click="expandAll = false" class="issue-list-ctrl-btn">
+                                collapse
+                                <img src="@/assets/icons/shrink.svg" alt="minimize all issues">
+                            </button>
+                        </div>
                     </div>
                </div>
             </div>
             <div v-if="!allIssues.length" class="no-issues">No issues!</div>
-            <div class="content" v-else>
-                <Issue 
-                    style="margin-bottom: 1rem" 
+            <div class="content" v-if="allIssues.length">
+                <div 
+                    class="issue-wrapper"  
                     v-for="issue in allIssues" 
                     :key="issue.id" 
-                    :issue="issue"
-                    :options="options"
-                />
+                >
+                    <Issue
+                        :issue="issue"
+                        :options="options"
+                        :isExpandedByDefault="expandAll"
+                    />
+                </div>
             </div>
         </div>
     </div>
@@ -120,7 +130,8 @@ interface IssueObj {
         Dropdown: () => import(/* webpackChunkName: "dropDown" */ '@/components/Dropdown.vue'),
     }
 })
-export default class Admin extends Vue{
+export default class Support extends Vue{
+    private expandAll = false;
     private showFilterOptions = false;
     private selectedFilter = 3;
     private selectedFilterChild = '';
@@ -202,5 +213,5 @@ export default class Admin extends Vue{
 </script>
 
 <style lang="scss">
-    @import '@/styles/admin.scss';
+    @import '@/styles/support.scss';
 </style>
