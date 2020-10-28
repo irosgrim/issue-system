@@ -25,17 +25,19 @@ setupDb();
 app.use(compression());
 app.use(cookieParser());
 app.use(bodyParser.json());
-app.use(baseUrl, express.static(path.join(__dirname, 'www')));
+console.log(baseUrl);
+app.use(`${baseUrl}/report`, express.static(path.join(__dirname, 'report')));
+app.use(`${baseUrl}/support`, express.static(path.join(__dirname, 'support')));
 
 // app.get(/.*/,(req,res)=>res.sendFile(path.resolve(__dirname, 'www/index.html')))
 
-app.get(`${baseUrl}/issues`, route.getIssues());
-app.get(`${baseUrl}/get-all-support-users`, route.getAllSupportUsers());
+app.get(`${baseUrl}/support/issues`, route.getIssues());
+app.get(`${baseUrl}/support/get-all-support-users`, route.getAllSupportUsers());
 // app.get('*', (req, res) => res.send('there is nothing to see here!'))
 
-app.post(`${baseUrl}/report-issue`, uploadIssueScreenshot, route.reportIssue());
-app.post(`${baseUrl}/assign-issue`, checkAuthorisation(), route.assignIssueTo());
-app.post(`${baseUrl}/set-issue-status`, checkAuthorisation(), route.setIssueStatus());
-app.post(`${baseUrl}/set-issue-note`, checkAuthorisation(), route.setIssueNote());
-app.post(`${baseUrl}/register`, checkAuthorisation(), user.registerUser());
-app.post(`${baseUrl}/login`, checkAuthorisation(), user.loginUser());
+app.post(`${baseUrl}/report/report-issue`, uploadIssueScreenshot, route.reportIssue());
+app.post(`${baseUrl}/support/assign-issue`, checkAuthorisation(), route.assignIssueTo());
+app.post(`${baseUrl}/support/set-issue-status`, checkAuthorisation(), route.setIssueStatus());
+app.post(`${baseUrl}/support/set-issue-note`, checkAuthorisation(), route.setIssueNote());
+app.post(`${baseUrl}/support/register`, checkAuthorisation(), user.registerUser());
+app.post(`${baseUrl}/support/login`, checkAuthorisation(), user.loginUser());

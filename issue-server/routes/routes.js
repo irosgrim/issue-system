@@ -52,7 +52,7 @@ class Route {
                                 issueSubject: issue.issue_subject,
                                 issueDescription: issue.issue_description,
                                 issueLocation: issue.issue_location,
-                                issueScreenshot: issue.issue_screenshot &&'/screenshots/' + issue.issue_screenshot,
+                                issueScreenshot: issue.issue_screenshot && process.env.BASE_URL + '/support/screenshots/' + issue.issue_screenshot,
                                 reporter: {
                                     name: issue.reporter_name,
                                     email: issue.reporter_email,

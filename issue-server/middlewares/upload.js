@@ -3,7 +3,7 @@ const path = require('path');
 
 const multerStorage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, 'screenshots/');
+        cb(null, 'support/screenshots/');
     },
     filename: (req, file, cb) => {
         console.log('reporterName =====>', req);
