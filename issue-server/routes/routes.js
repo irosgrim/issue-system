@@ -136,16 +136,15 @@ class Route {
                 res.status(400).send({message: msg[0].toUpperCase() + msg.slice(1) + ' required'});
                 return;
             }
-            let createSubject = '';
             if(issueSubject === '') {
                 if(issueDescription.length > 40) {
-                    createSubject = issueDescription.substring(0, 25) + '...';
+                    issueSubject= issueDescription.substring(0, 25) + '...';
                 } else {
-                    createSubject = issueDescription.substring(0, 20) + '...';
+                    issueSubject = issueDescription.substring(0, 20) + '...';
                 }
-            }
+            } 
             query(insertNewIssue, 
-                [createSubject, issueDescription, issueLocation, issueScreenshot, name, email, priority, operatingSystem, browser, device], 
+                [issueSubject, issueDescription, issueLocation, issueScreenshot, name, email, priority, operatingSystem, browser, device], 
                 (error, results) => {
                     if(error) {
                         console.log(error);
