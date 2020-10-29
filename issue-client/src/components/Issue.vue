@@ -1,13 +1,11 @@
 <template>
     <div class="issue">
-        <div class="picture-modal" v-if="showScreenshot">
-            <div class="picture-modal-bg" @click="showScreenshot = false"></div>
+        <div class="picture-modal" v-if="showScreenshot" id="pictureModal" @click="closeModal()">
+            <div class="picture-modal-bg"></div>
             <div class="modal-body">
-                <div class="modal-header">
-                    <button type="button" class="close-btn">
-                        <img src="@/assets/icons/close.svg" alt="close window" @click="showScreenshot = false">
-                    </button>
-                </div>
+                <!-- <button type="button" class="close-btn">
+                        <img src="@/assets/icons/close.svg" alt="close window" @click="closeModal()">
+                </button> -->
                 <div class="modal-content">
                     <div class="loading">loading image...</div>
                     <img :src="issue.issueScreenshot" alt="issue screenshot">
@@ -15,36 +13,38 @@
             </div>
         </div>
         <div class="row">
-             <div class="position-relative">
-                <div class="status-col-id" :style="!isExpanded && {display: 'none'}">#{{issue.id}}</div>
-                <Dropdown 
-                    :options="options.status" 
-                    :toggleOptions="showStatusOptions"
-                    :selectedOption="selectedStatusOption"
-                    @selected="setIssueStatus"
-                    @close="onToggleStatusOptions"
-                    :style="isExpanded && {visibility: 'hidden'}"
-                >
-                    <button 
-                        type="button" 
-                        class="status-btn"
-                        :style="statusColor(selectedStatusOption)"
-                        @click="onToggleStatusOptions"
+            <div class="row-wrapper">
+                <div class="position-relative">
+                    <div class="status-col-id" :style="!isExpanded && {display: 'none'}">#{{issue.id}}</div>
+                    <Dropdown 
+                        :options="options.status" 
+                        :toggleOptions="showStatusOptions"
+                        :selectedOption="selectedStatusOption"
+                        @selected="setIssueStatus"
+                        @close="onToggleStatusOptions"
+                        :style="isExpanded && {visibility: 'hidden'}"
                     >
-                        {{options.status[selectedStatusOption]}}
-                    </button>
-                </Dropdown>
-            </div>
-            <div class="subject-row">
-                <div class="subject" @click="isExpanded = !isExpanded">{{issue.issueSubject}}</div>
-                <div class="issue-link">
-                    <div style="flex-shrink: 0;">
-                        <a :href="issue.issueLocation">Link to issue</a>
-                    </div>
-                    <img src="@/assets/icons/open-black.svg" alt="link to issue icon">
+                        <button 
+                            type="button" 
+                            class="status-btn"
+                            :style="statusColor(selectedStatusOption)"
+                            @click="onToggleStatusOptions"
+                        >
+                            {{options.status[selectedStatusOption]}}
+                        </button>
+                    </Dropdown>
                 </div>
+                <div class="subject-row">
+                    <div class="subject" @click="isExpanded = !isExpanded">{{issue.issueSubject}}</div>
+                    <div class="issue-link">
+                        <div style="flex-shrink: 0;">
+                            <a :href="issue.issueLocation">Link to issue</a>
+                        </div>
+                        <!-- <img src="@/assets/icons/open-black.svg" alt="link to issue icon"> -->
+                    </div>
+                </div>
+                <div class="issue-date" @click="isExpanded = !isExpanded">{{issue.reportedDate | getDateAndTimeAsString}}</div>
             </div>
-            <div class="issue-date" @click="isExpanded = !isExpanded">{{issue.reportedDate | getDateAndTimeAsString}}</div>
         </div>
         <div :style="isExpanded=== false && {display: 'none'}">
             <div class="issue-details-wrapper">
@@ -92,13 +92,13 @@
                     </div>
                     <div class="link">
                         <span v-if="issue.issueScreenshot">
-                            <span class="text-link" @click="showScreenshot = true">
+                            <span class="text-link" @click="showModal()">
                                     Screenshot
                             </span>
-                            <img 
+                            <!-- <img 
                                 src="@/assets/icons/link-black.svg" 
                                 alt="screenshot link icon"
-                            >
+                            > -->
                         </span>
                         <span class="inactive" v-else>
                             No screenshot
@@ -250,8 +250,8 @@ export default class Issue extends Vue {
     private selectedStatusOption = 0;
     private selectedCategoryOption = 0;
     private selectedAssignedToOption = 0;
-    private selectedPriorityOption = 0;
 
+    private selectedPriorityOption = 0;
     private showTooltip = false;
 
     private created() {
@@ -261,7 +261,18 @@ export default class Issue extends Vue {
     private mounted() {
         this.selectedStatusOption = this.options.status.indexOf(this.issue.status);
         this.selectedPriorityOption = this.options.priority.indexOf(this.issue.priority);
+        window.addEventListener('scroll', this.setScrollY);
     }
+
+    private beforeDestroy() {
+        window.removeEventListener('scroll', this.setScrollY);
+    }
+
+    private setScrollY() {
+        // document.documentElement.style.setProperty('--scroll-y', `${window.scrollY}px`);
+        document.documentElement.dataset.scrollY = `${window.scrollY}px`;
+    }
+
 
     private onToggleStatusOptions() {
         this.showStatusOptions = !this.showStatusOptions;
@@ -300,7 +311,7 @@ export default class Issue extends Vue {
     }
 
     private statusColor(status: number) {
-        const colors = ["#64686f", "#eba925", "#f78ae0", "#cb0a4c", "#20a874"];
+        const colors = ["#17687a", "#ffa62b", "#ed524b", "#bbbfca", "#6a2d70"];
         return {backgroundColor: colors[status]};
     }
 
@@ -313,6 +324,25 @@ export default class Issue extends Vue {
         copyToClipboard(text);
         setTimeout(() => this.showTooltip = false, 1500)
     }
+
+    private showModal() {
+        this.showScreenshot = true;
+        const scrollY = document.documentElement.dataset.scrollY;
+        const body = document.body;
+        body.style.position = 'fixed';
+        body.style.width = '100%';
+        body.style.top = `-${scrollY}`;
+    }
+
+    private closeModal() {
+        this.showScreenshot = false;
+        const body = document.body;
+        const scrollY = body.style.top;
+        body.style.position = '';
+        body.style.top = '';
+        window.scrollTo(0, parseInt(scrollY || '0') * -1);
+    }
+    
 
 }
 

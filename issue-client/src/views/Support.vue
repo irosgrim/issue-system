@@ -64,14 +64,21 @@
                             <img src="@/assets/icons/settings-black.svg" alt="settings">
                         </button>
                          <div class="issue-list-menu">
-                            <button v-if="!expandAll" type="button" @click="expandAll = true" class="issue-list-ctrl-btn">
-                                expand
-                                <img src="@/assets/icons/expand.svg" alt="expand all issues">
-                            </button>
-                            <button v-else type="button" @click="expandAll = false" class="issue-list-ctrl-btn">
-                                collapse
-                                <img src="@/assets/icons/shrink.svg" alt="minimize all issues">
-                            </button>
+                            <div>
+                                <button type="button" @click="resetFilters" class="issue-list-ctrl-btn">
+                                    reset filters
+                                </button>
+                            </div>
+                            <div>
+                                    <button v-if="!expandAll" type="button" @click="expandAll = true" class="issue-list-ctrl-btn">
+                                        expand
+                                        <img src="@/assets/icons/expand.svg" alt="expand all issues">
+                                    </button>
+                                    <button v-else type="button" @click="expandAll = false" class="issue-list-ctrl-btn">
+                                        collapse
+                                        <img src="@/assets/icons/shrink.svg" alt="minimize all issues">
+                                    </button>
+                            </div>
                         </div>
                     </div>
                </div>
@@ -80,7 +87,7 @@
             <div class="content" v-if="allIssues.length">
                 <div 
                     class="issue-wrapper"  
-                    v-for="issue in allIssues" 
+                    v-for="issue in allIssuesFiltered" 
                     :key="issue.id" 
                 >
                     <Issue
@@ -95,7 +102,7 @@
 </template>
 
 <script lang="ts">
-import {Vue, Component} from 'vue-property-decorator';
+import {Vue, Component, Watch} from 'vue-property-decorator';
 import { SupportUser } from '../types/types';
 import { Endpoints } from '../api/endpoints';
 // import Issue from '@/components/Issue.vue';
@@ -133,20 +140,30 @@ interface IssueObj {
 export default class Support extends Vue{
     private expandAll = false;
     private showFilterOptions = false;
-    private selectedFilter = 3;
+    private selectedFilter = 0;
     private selectedFilterChild = '';
 
     private contentIsLoading = true;
 
     private allIssues: IssueObj[] = [];
     private allSupportUsers: SupportUser[] = [];
+    private filters = {};
 
+    @Watch('selectedFilterChild')
+    private getCurrentFilter() {
+        this.$set(this.filters, this.filterBy[this.selectedFilter], this.selectedFilterChild);
+        console.log(this.filters);
+    }
+
+    // @Watch('filters', {immediate: true, deep: true})
+    // private applyFilters() {
+    //     console.log('f')
+    // }
    
     private filterBy = [
         "STATUS",
         "PRIORITY",
         "CATEGORY",
-        "DATE"
     ];
 
     private filterByDate = [
@@ -199,6 +216,23 @@ export default class Support extends Vue{
         this.contentIsLoading = false;
     }
 
+    private get allIssuesFiltered() {
+        let filteredIssues: any[] = [];
+        const filtersDictionary = {
+            "STATUS": 'status',
+            "PRIORITY": 'priority',
+            "CATEGORY": 'category',
+            "DATE": 'reportedDate',
+        }
+        if(Object.keys(this.filters).length) {
+            for(const filter in this.filters) {
+                // @ts-ignore
+                filteredIssues = this.allIssues.filter(issue => issue[filtersDictionary[filter]] === this.filters[filter]);
+            }
+        }
+        // @ts-ignore
+        return Object.keys(this.filters).length ? filteredIssues : this.allIssues;
+    }
 
     private setFilter(value: number) {
         this.selectedFilter = value;
@@ -207,6 +241,11 @@ export default class Support extends Vue{
 
     private toggleFilterOptions() {
         this.showFilterOptions = !this.showFilterOptions;
+    }
+
+    private resetFilters() {
+        this.filters = {};
+        this.selectedFilter = 0;
     }
 }
 
