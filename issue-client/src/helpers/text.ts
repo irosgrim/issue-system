@@ -3,7 +3,7 @@ export function toInitials(name: string) {
     if(words.length > 1) {
         return words[0][0] + words[1][0];
     }
-    return name[0][0];
+    return name[0];
 }
 
 export function randomColor() {
